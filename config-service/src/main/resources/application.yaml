@@ -1,12 +1,12 @@
 server:
   port: 8081
 spring:
-  application:
-    name: config-service
   cloud:
     config:
       server:
         git:
           default-label: main
-          uri: https://github.com/AracelyU/Entrega-Tingeso-2
-          search-paths: "config-data"
+          uri: https://github.com/amigo1975/microsevices-data-project
+          search-paths: config-data
+  application:
+    name: config-service
