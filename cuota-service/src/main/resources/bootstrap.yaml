@@ -1,14 +1,14 @@
 spring:
   application:
-    name: book-service
+    name: cuota-service
   cloud:
     config:
       enabled: true
       uri: http://localhost:8081
   datasource:
-    url: jdbc:mysql://localhost:3306/bdmicros
+    url: jdbc:mysql://localhost:3306/cuota
     username: root
-    password: Chile&2022
+    password: 2190
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
