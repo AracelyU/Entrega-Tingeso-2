@@ -1,4 +1,4 @@
-package com.example.cuotaservice;
+package com.tutorial.studentservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,10 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
 @EnableEurekaClient
-public class CuotaServiceApplication {
+public class StudentServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CuotaServiceApplication.class, args);
+		SpringApplication.run(StudentServiceApplication.class, args);
 	}
 
 }

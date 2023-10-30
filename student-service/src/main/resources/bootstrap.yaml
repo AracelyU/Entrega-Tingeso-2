@@ -1,7 +1,4 @@
 spring:
-  devtools:
-    restart:
-      aditional-paths: src/main/java
   application:
     name: student-service
   cloud:
@@ -9,12 +6,9 @@ spring:
       enabled: true
       uri: http://localhost:8081
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/estudiante?autorReconnect=true&allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/bdmicros
     username: root
-    password: 2190
+    password: Chile&2022
   jpa:
-    show-sql: true
     hibernate:
-      dialect: MySQL8Dialect
-      ddl-auto: create
+      ddl-auto: update
