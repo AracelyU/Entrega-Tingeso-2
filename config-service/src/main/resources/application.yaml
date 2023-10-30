@@ -9,4 +9,4 @@ spring:
         git:
           default-label: main
           uri: https://github.com/AracelyU/Entrega-Tingeso-2
-          search-paths: config-data
+          search-paths: "config-data"
