@@ -1,4 +1,4 @@
-package com.example.gatewayservice;
+package com.tutorial.gatewayservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
