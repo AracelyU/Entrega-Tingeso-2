@@ -1,7 +1,4 @@
 spring:
-  devtools:
-    restart:
-      aditional-paths: src/main/java
   application:
     name: exam-service
   cloud:
@@ -9,12 +6,9 @@ spring:
       enabled: true
       uri: http://localhost:8081
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/examen?autorReconnect=true&allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/examen
     username: root
     password: 2190
   jpa:
-    show-sql: true
     hibernate:
-      dialect: MySQL8Dialect
       ddl-auto: create
