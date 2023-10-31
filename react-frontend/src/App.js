@@ -1,27 +1,22 @@
-import React from 'react';
-import './App.css';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-import ListBookComponent from './components/ListBookComponent';
-import HeaderComponent from './components/HeaderComponent';
-import CreateBookComponent from './components/CreateBookComponent';
-import ViewBookComponent from './components/ViewBookComponent';
-
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import HomeComponent from './components/HomeComponent';
+import StudentComponent from './components/StudentComponent';
+import { ReactKeycloakProvider } from '@react-keycloak/web'
+import keycloak from './keycloak'
 function App() {
   return (
-    <div>
-        <Router>
-              <HeaderComponent />
-                <div className="container">
-                    <Switch> 
-                          <Route path = "/" exact component = {ListBookComponent}></Route>
-                          <Route path = "/books" component = {ListBookComponent}></Route>
-                          <Route path = "/add-book" component = {CreateBookComponent}></Route>
-                          <Route path = "/view-book/:id" component = {ViewBookComponent}></Route>
-                    </Switch>
-                </div>
-        </Router>
-    </div>
-    
+      <div>
+        <ReactKeycloakProvider authClient={keycloak}>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<HomeComponent />} />
+              <Route path= "/lista-estudiantes" element={<StudentComponent />} />
+
+
+            </Routes>
+          </BrowserRouter>
+        </ReactKeycloakProvider>
+      </div>
   );
 }
 
