@@ -1,7 +1,7 @@
-package com.tutorial.bookservice.controller;
+package com.tutorial.cuotaservice.controller;
 
-import com.tutorial.bookservice.entity.Book;
-import com.tutorial.bookservice.service.BookService;
+import com.tutorial.cuotaservice.entity.Book;
+import com.tutorial.cuotaservice.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

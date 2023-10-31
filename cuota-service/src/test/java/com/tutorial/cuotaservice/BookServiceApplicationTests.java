@@ -1,4 +1,4 @@
-package com.tutorial.bookservice;
+package com.tutorial.cuotaservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

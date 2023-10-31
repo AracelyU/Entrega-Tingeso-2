@@ -1,6 +1,6 @@
-package com.tutorial.bookservice.repository;
+package com.tutorial.cuotaservice.repository;
 
-import com.tutorial.bookservice.entity.Book;
+import com.tutorial.cuotaservice.entity.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

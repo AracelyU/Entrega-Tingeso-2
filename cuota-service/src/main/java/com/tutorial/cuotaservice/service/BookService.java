@@ -1,7 +1,7 @@
-package com.tutorial.bookservice.service;
+package com.tutorial.cuotaservice.service;
 
-import com.tutorial.bookservice.entity.Book;
-import com.tutorial.bookservice.repository.BookRepository;
+import com.tutorial.cuotaservice.entity.Book;
+import com.tutorial.cuotaservice.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
