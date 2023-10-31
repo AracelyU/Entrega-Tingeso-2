@@ -20,18 +20,25 @@ public class StudentService {
     @Autowired
     RestTemplate restTemplate;
 
-    public List<Student> getAll() {
+    // obtener lista de estudiantes
+    public List<Student> obtenerEstudiantes() {
         return studentRepository.findAll();
     }
 
-    public Student getStudentById(int id) {
-        return studentRepository.findById(id).orElse(null);
-    }
-
-    public Student save(Student student) {
+    // guardar estudiante
+    public Student guardarEstudiante(Student student) {
         Student studentNew = studentRepository.save(student);
         return studentNew;
     }
+
+    // obtener al estudiante por id
+    public Student obtenerEstudiantePorId(int id) {
+        return studentRepository.findById(id).orElse(null);
+    }
+
+    // obtener al estudiante por su rut
+
+
 
     public List<Cuota> getBooks(int studentId) {
         List<Cuota> books = restTemplate.getForObject("http://book-service/book/bystudent/" + studentId, List.class);
@@ -43,6 +50,7 @@ public class StudentService {
         return pets;
     }
 
+    /*
     public Cuota saveBook(int studentId, Cuota book) {
         book.setStudentId(studentId);
         HttpEntity<Cuota> request = new HttpEntity<Cuota>(book);
@@ -56,4 +64,6 @@ public class StudentService {
         Exam petNew = restTemplate.postForObject("http://pet-service/pet", request, Exam.class);
         return petNew;
     }
+
+     */
 }

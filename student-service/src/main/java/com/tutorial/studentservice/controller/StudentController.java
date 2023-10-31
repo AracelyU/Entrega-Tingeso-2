@@ -17,27 +17,35 @@ public class StudentController {
     @Autowired
     StudentService studentService;
 
+
+    // listar estudiantes
     @GetMapping
     public ResponseEntity<List<Student>> getAll() {
-        List<Student> students = studentService.getAll();
+        List<Student> students = studentService.obtenerEstudiantes();
         if(students.isEmpty())
             return ResponseEntity.noContent().build();
         return ResponseEntity.ok(students);
     }
 
+    // guardar estudiante
+    @PostMapping()
+    public ResponseEntity<Student> save(@RequestBody Student student) {
+        Student studentNew = studentService.guardarEstudiante(student);
+        return ResponseEntity.ok(studentNew);
+    }
+
+    // encontrar estudiante por su id
     @GetMapping("/{id}")
     public ResponseEntity<Student> getById(@PathVariable("id") int id) {
-        Student student = studentService.getStudentById(id);
+        Student student = studentService.obtenerEstudiantePorId(id);
         if(student == null)
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok(student);
     }
 
-    @PostMapping()
-    public ResponseEntity<Student> save(@RequestBody Student student) {
-        Student studentNew = studentService.save(student);
-        return ResponseEntity.ok(studentNew);
-    }
+
+
+/*
 
     @GetMapping("/books/{studentId}")
     public ResponseEntity<List<Cuota>> getBooks(@PathVariable("studentId") int studentId) {
@@ -57,6 +65,9 @@ public class StudentController {
         return ResponseEntity.ok(pets);
     }
 
+ */
+
+    /*
     @PostMapping("/savebook/{studentId}")
     public ResponseEntity<Cuota> saveBook(@PathVariable("studentId") int studentId, @RequestBody Cuota book) {
         if(studentService.getStudentById(studentId) == null)
@@ -72,5 +83,7 @@ public class StudentController {
         Exam petNew = studentService.savePet(studentId, pet);
         return ResponseEntity.ok(pet);
     }
+
+     */
 
 }
