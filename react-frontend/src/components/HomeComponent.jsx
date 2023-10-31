@@ -1,7 +1,4 @@
 import React, { Component } from "react";
-import styled from "styled-components";
-import { createGlobalStyle } from 'styled-components'
-import { useKeycloak } from '@react-keycloak/web'
 
 
 export default function Home(){
