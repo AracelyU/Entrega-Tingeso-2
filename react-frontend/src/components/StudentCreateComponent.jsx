@@ -4,7 +4,7 @@ import HeaderComponent from "./Headers/HeaderComponent";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2';
-import EstudianteService from "../services/EstudianteService";
+import StudentService from "../service/StudentService";
 
 function StudentCreateComponent(props) {
 
@@ -75,7 +75,7 @@ function StudentCreateComponent(props) {
                 };
 
                 console.log(newEstudiante);
-                EstudianteService.createEstudiante(newEstudiante);
+                StudentService.createEstudiante(newEstudiante);
                 Swal.fire({
                     title: "Enviado",
                     timer: 2000,
@@ -100,12 +100,12 @@ function StudentCreateComponent(props) {
                         <Form.Control className="agregar" type="text" name="rut"/>
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="nombres" value = {input.nombre_estudiante} onChange={changeNombresHandler}>
+                    <Form.Group className="mb-3" controlId="nombre_estudiante" value = {input.nombre_estudiante} onChange={changeNombreHandler}>
                         <Form.Label className="agregar">Nombre:</Form.Label>
                         <Form.Control className="agregar" type="text" name="nombre_estudiante"/>
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="apellidos" value = {input.apellido_estudiante} onChange={changeApellidoHandler}>
+                    <Form.Group className="mb-3" controlId="apellido_estudiante" value = {input.apellido_estudiante} onChange={changeApellidoHandler}>
                         <Form.Label className="agregar">Apellido:</Form.Label>
                         <Form.Control className="agregar" type="text" name="apellido_estudiante"/>
                     </Form.Group>
