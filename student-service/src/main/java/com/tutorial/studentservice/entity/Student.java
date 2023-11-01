@@ -41,9 +41,5 @@ public class Student {
 
     private Float matricula; // indica la matricula de 70000
 
-    private LocalDate ultimo_pago;  // ingresa el último pago que se hizo de pago
-
-    private Float saldo_devuelto; // salgo que se devuelve para los que pagaron contado
-
 
 }

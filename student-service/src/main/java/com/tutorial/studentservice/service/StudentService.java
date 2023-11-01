@@ -31,6 +31,11 @@ public class StudentService {
         return studentNew;
     }
 
+
+
+
+
+
     // obtener al estudiante por id
     public Student obtenerEstudiantePorId(int id) {
         return studentRepository.findById(id).orElse(null);
