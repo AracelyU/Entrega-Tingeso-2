@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import HeaderComponent from "./Headers/HeaderComponent";
+import HeaderComponent from "../Headers/HeaderComponent";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2';
 import StudentService from "../service/StudentService";
+import studentService from "../service/StudentService";
 
 function StudentCreateComponent(props) {
 
@@ -46,6 +47,15 @@ function StudentCreateComponent(props) {
         setInput({...input, nombre_colegio: event.target.value});
     };
 
+    // 1. En el servicio (StudentService), crea una función para verificar la existencia de un Rut.
+    const checkRutExistence = (rut) => {
+        if(studentService.verificarRut(rut) == null){ // si no hay contenido el rut no es repetido
+            return false;
+        }
+        return true;
+    };
+
+
     const ingresarEstudiante = (event) => {
         Swal.fire({
             title: "¿Desea registrar el estudiante?",
@@ -57,9 +67,59 @@ function StudentCreateComponent(props) {
             denyButtonText: "Cancelar",
             denyButtonColor: "rgb(190, 54, 54)",
         }).then((result) => {
-            if (result.isConfirmed) {
-                console.log(input.title);
 
+
+            // Validar los campos de entrada
+            if (
+                !input.rut ||
+                !input.nombre_estudiante ||
+                !input.apellido_estudiante ||
+                !input.fecha_nacimiento ||
+                !input.tipo_colegio ||
+                !input.nombre_colegio ||
+                !input.anio_egreso
+            ) {
+                Swal.fire({
+                    title: "Error",
+                    text: "Todos los campos son obligatorios",
+                    icon: "error",
+                });
+                return; // Salir de la función si falta algún campo obligatorio.
+            }
+
+            // Validar el tipo de dato para fecha_nacimiento
+            if (typeof input.fecha_nacimiento !== "string" || isNaN(Date.parse(input.fecha_nacimiento))) {
+                Swal.fire({
+                    title: "Error",
+                    text: "Fecha de nacimiento no es válida",
+                    icon: "error",
+                });
+                return;
+            }
+
+            // Validar el tipo de dato para anio_egreso
+            if (isNaN(input.anio_egreso)) {
+                Swal.fire({
+                    title: "Error",
+                    text: "Año de egreso debe ser un número",
+                    icon: "error",
+                });
+                return;
+            }
+
+            // Verifica si el Rut ya existe antes de agregar el estudiante.
+            if (checkRutExistence(input.rut)) {
+                Swal.fire({
+                    title: "Error",
+                    text: "El Rut ya está registrado",
+                    icon: "error",
+                });
+                return;
+            }
+
+            if (result.isConfirmed) {
+
+                // Se forma al estudiante
                 let newEstudiante = {
                     rut: input.rut,
                     nombre_estudiante: input.nombre_estudiante,
@@ -76,6 +136,7 @@ function StudentCreateComponent(props) {
 
                 console.log(newEstudiante);
                 StudentService.createEstudiante(newEstudiante);
+
                 Swal.fire({
                     title: "Enviado",
                     timer: 2000,
@@ -85,6 +146,7 @@ function StudentCreateComponent(props) {
                         Swal.showLoading()
                     },
                 })
+
                 navigateHome();
             }
         });
@@ -117,7 +179,7 @@ function StudentCreateComponent(props) {
 
                     <Form.Group className="mb-3" controlId="anio_egreso" value = {input.anio_egreso} onChange={changeAnioEgresoIDHandler}>
                         <Form.Label className="agregar">Año Egreso Del Colegio:</Form.Label>
-                        <Form.Control className="agregar" type="date" name="anio_egreso"/>
+                        <Form.Control className="agregar" type="number" name="anio_egreso"/>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="tipo_colegio">
@@ -134,7 +196,9 @@ function StudentCreateComponent(props) {
                         <Form.Label className="agregar">Nombre Colegio:</Form.Label>
                         <Form.Control className="agregar" type="text" name="nombre_colegio"/>
                     </Form.Group>
+
                     <Button className="boton" onClick={ingresarEstudiante}>Registrar Estudiante</Button>
+
                 </Form>
             </div>
         </div>

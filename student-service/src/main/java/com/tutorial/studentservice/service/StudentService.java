@@ -27,11 +27,11 @@ public class StudentService {
 
     // guardar estudiante
     public Student guardarEstudiante(Student student) {
-        Student studentNew = studentRepository.save(student);
-        return studentNew;
+        return studentRepository.save(student);
     }
 
-
+    // obtener al estudiante por su rut
+    public Student obtenerEstudiantePorRut(String rut){ return studentRepository.findByRut(rut); }
 
 
 
