@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 
 class StudentListComponent extends Component{
+
     constructor(props){
         super(props);
         this.state = {
@@ -34,6 +35,7 @@ class StudentListComponent extends Component{
                     </tr>
                     </thead>
                     <tbody>
+
                     {this.state.students.map((student) => (
                         <tr key={student.id}>
                             <td>{student.id}</td>
@@ -46,6 +48,7 @@ class StudentListComponent extends Component{
                             <td>{student.anio_egreso}</td>
                         </tr>
                     ))}
+
                     </tbody>
                 </table>
 

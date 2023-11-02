@@ -55,8 +55,8 @@ function StudentCreateComponent(props) {
         return true;
     };
 
-
     const ingresarEstudiante = (event) => {
+
         Swal.fire({
             title: "¿Desea registrar el estudiante?",
             text: "No podra cambiarse en caso de equivocación",
@@ -66,8 +66,8 @@ function StudentCreateComponent(props) {
             confirmButtonColor: "rgb(68, 194, 68)",
             denyButtonText: "Cancelar",
             denyButtonColor: "rgb(190, 54, 54)",
-        }).then((result) => {
 
+        }).then((result) => {
 
             // Validar los campos de entrada
             if (
@@ -118,7 +118,6 @@ function StudentCreateComponent(props) {
             }
 
             if (result.isConfirmed) {
-
                 // Se forma al estudiante
                 let newEstudiante = {
                     rut: input.rut,

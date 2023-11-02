@@ -11,7 +11,7 @@ class StudentService{
 
 
     verificarRut(rut){
-        return axios.post(API_URL_STUDENT, rut);
+        return axios.post(API_URL_STUDENT + "/rut", rut);
     }
 
 

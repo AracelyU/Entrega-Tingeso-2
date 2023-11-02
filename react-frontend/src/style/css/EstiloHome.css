@@ -1,0 +1,52 @@
+
+
+/* fondo de home */
+html, body {
+    background-image: url("../image/fondo_home.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+/*titulo del home*/
+h1 {
+    color: #FFFFFF;
+    -webkit-text-stroke: 1px rgba(72, 61, 139, 0.44);
+    text-align: center;
+    font-size: 60px;
+    text-transform: uppercase; /*capitalización texto*/
+    font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+}
+
+
+/* degradado */
+.degradado-horizontal {
+    background: linear-gradient(to right, #4b94a7, #de79f7);
+}
+
+/*botones*/
+
+.boton {
+    border: 1px solid #2e518b; /*anchura, estilo y color borde*/
+    background-color: #2e518b; /*color botón*/
+    color: #ffffff; /*color texto*/
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase; /*capitalización texto*/
+    font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+    border-radius: 50px; /*bordes redondos*/
+    font-size: 18px;
+    padding: 10px 15px;
+    width: 220px;
+    display: block;
+    margin: 0 auto;
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    transition: background-color 0.3s; /* Agregar una transición suave para el cambio de color de fondo */
+}
+
+/* Estilos CSS para el botón cuando el ratón pasa sobre él */
+.boton:hover {
+    background-color: #4a90e2; /* Cambiar el color de fondo cuando el ratón pasa sobre el botón */
+    border:none;
+}
+

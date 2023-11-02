@@ -9,7 +9,6 @@ function HeaderComponent() {
     return (
         <div>
 
-
             <header className="header">
                 <div className="logo">
                     <h1 onClick={handleClick}>TopEducation</h1>

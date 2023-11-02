@@ -1,34 +1,28 @@
 import React, { Component } from "react";
+import "../style/css/EstiloHome.css"
 
 
 export default function Home(){
 
     return (
-        <div>
-            <h1 className="text-center"> <b>TopEducation Web</b></h1>
+        <div className = "contenedor body">
+            <hr></hr>
 
-            <div className="box-area">
-
-                <div class="single-box">
-                    <a href="/lista_estudiantes">
-                        <div className="img-text">
-                            <span className="header-text"><strong>Listar Estudiantes</strong></span>
-                        </div>
-                    </a>
-                </div>
-
-                <div className="single-box">
-                    <a href="/crear_estudiantes">
-                        <div className="img-text">
-                            <span className="header-text"><strong>Agregar Estudiante</strong></span>
-                        </div>
-                    </a>
-                </div>
-
-
-
-
+            <br></br><br></br>
+            <div className="h1">
+                <h1>TopEducation Web</h1>
             </div>
+
+            <br></br><br></br>
+
+            <a className="boton" href="/lista_estudiantes"> Listar Estudiantes</a>
+            <br></br>
+            <a className="boton" href="/crear_estudiantes"> Crear Estudiante</a>
+            <br></br>
+            <a className="boton" href="/subir_archivo"> Cargar Archivo</a>
+
+
+
 
         </div>
     );

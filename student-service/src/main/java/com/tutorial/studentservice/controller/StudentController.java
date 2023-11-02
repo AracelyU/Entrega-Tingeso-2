@@ -35,7 +35,7 @@ public class StudentController {
     }
 
     // verificar si un rut no esta repetido
-    @PostMapping()
+    @PostMapping("/rut")
     public ResponseEntity<Student> findRut(@RequestBody String rut){
         Student s = studentService.obtenerEstudiantePorRut(rut);
         if(s == null){
