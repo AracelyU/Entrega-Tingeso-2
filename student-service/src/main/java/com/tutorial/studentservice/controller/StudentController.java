@@ -44,9 +44,6 @@ public class StudentController {
         return ResponseEntity.ok(s);
     }
 
-
-
-
     // encontrar estudiante por su id
     @GetMapping("/{id}")
     public ResponseEntity<Student> getById(@PathVariable("id") int id) {

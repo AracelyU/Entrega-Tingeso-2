@@ -4,13 +4,13 @@ import com.example.cuotaservice.entity.Cuota;
 import com.example.cuotaservice.model.Student;
 import com.example.cuotaservice.repository.CuotaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -32,16 +32,16 @@ public class CuotaService {
     public List<Cuota> obtenerCuotasPorEstudiante_Id(int studentId) {
         return cuotaRepository.findByStudentId(studentId);
     }
-
      */
 
-    // obtener estudiante por id
+    // obtener estudiante por id  HAY QUE VER QUE FUNCIONE ESTA FUNCIÓN
     public Student obtenerEstudiantePorId(int studentId) {
-        String studentServiceUrl = "http://student";
-        ResponseEntity<Student> response = restTemplate.getForEntity(studentServiceUrl + "/{id}", Student.class, studentId);
-        if (response.getBody() == null) {
-            return null;
-        }
+        ResponseEntity<Student> response = restTemplate.exchange(
+                "http://localhost:8080/student/"+ studentId,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<Student>() {}
+        );
         return response.getBody();
     }
 

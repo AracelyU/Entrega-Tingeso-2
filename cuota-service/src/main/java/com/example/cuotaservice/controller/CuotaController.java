@@ -2,6 +2,7 @@ package com.example.cuotaservice.controller;
 
 import com.example.cuotaservice.entity.Cuota;
 import com.example.cuotaservice.entity.GenerarCuota;
+import com.example.cuotaservice.model.Student;
 import com.example.cuotaservice.service.CuotaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,20 +38,27 @@ public class CuotaController {
 
      */
 
+    /* obtener estudiante
+    */
+    @GetMapping("/student/{studentId}")
+    public ResponseEntity<Student> getByStudentId(@PathVariable("studentId") int studentId) {
+        Student s = cuotaService.obtenerEstudiantePorId(studentId);
+        return ResponseEntity.ok(s);
+    }
+
     // generar pago
     @PostMapping("/generatepago")
-    public ResponseEntity<String> createdPayment(@RequestBody GenerarCuota generarCuota){
+    public ResponseEntity<GenerarCuota> createdPayment(@RequestBody GenerarCuota generarCuota){
         String mensaje = cuotaService.verificarGuardarPago(generarCuota.getId_estudiante(), generarCuota.getNum_cuotas(), generarCuota.getTipo_pago());
         if (!mensaje.equals("El pago se generó con éxito.")) {
             // Devuelve una respuesta de error con un código de estado 400 Bad Request
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensaje);
+            return ResponseEntity.noContent().build();
         }
-
         System.out.println(mensaje);
 
         // generar las cuotas
         //cuotaService.guardarPago(student_id, num_cuotas, tipo_pago);
-        return ResponseEntity.ok(mensaje);
+        return ResponseEntity.ok(generarCuota);
     }
 
 

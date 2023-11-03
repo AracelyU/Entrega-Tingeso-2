@@ -79,14 +79,14 @@ function CuotaCreateComponent(){
 
             if (result.isConfirmed) {
 
-                let generarCuota = {
+                let newGenerarCuota = {
                     num_cuotas: input.num_cuotas,
                     tipo_pago: input.tipo_pago,
                     id_estudiante: input.id_estudiante,
                 };
 
-                console.log(generarCuota);
-                CuotaService.createCuota(generarCuota);
+                console.log(newGenerarCuota);
+                //CuotaService.createCuota(newGenerarCuota);
 
                 Swal.fire({
                     title: "Enviado",
