@@ -19,11 +19,27 @@ class StudentListComponent extends Component{
     }
 
     render(){
+
+        const { students } = this.state;
+
+        if(students.length === 0){
+            return(
+                <div>
+                    <a className="botonVolver" href="/"> Volver Al Menú Principal</a>
+                    <h2>Listado de Estudiantes</h2>
+                    <hr></hr>
+                    <h2>No hay Estudiantes Registrados</h2>
+
+                </div>
+            )
+        }
+
         return(
             <div className="main-container">
                 <a className="botonVolver" href="/"> Volver Al Menú Principal</a>
                 <h2>Listado de Estudiantes</h2>
                 <hr></hr>
+
                 <table className="table">
                     <thead>
                     <tr>
@@ -34,6 +50,7 @@ class StudentListComponent extends Component{
                         <th>Tipo de Escuela</th>
                         <th>Nombre de la Escuela</th>
                         <th>Año de egreso</th>
+                        <th>Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -47,7 +64,13 @@ class StudentListComponent extends Component{
                             <td>{student.tipo_colegio}</td>
                             <td>{student.nombre_colegio}</td>
                             <td>{student.anio_egreso}</td>
+
+                            <td>
+                                <a className="botonVolver" href="/pagar-cuota"> Pagar Cuotas</a>
+                            </td>
+
                         </tr>
+
                     ))}
 
                     </tbody>

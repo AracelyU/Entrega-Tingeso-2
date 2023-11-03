@@ -21,6 +21,8 @@ export default function Home(){
             <br></br>
             <a className="boton" href="/crear-pago"> Generar Pago</a>
             <br></br>
+            <a className="boton" href="/mostrar-pago"> Mostrar Pago</a>
+            <br></br>
             <a className="boton" href="/subir-archivo"> Cargar Archivo</a>
 
 

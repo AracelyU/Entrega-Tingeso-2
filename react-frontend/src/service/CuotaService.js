@@ -6,8 +6,9 @@ class CuotaService{
 
     // crear pago
     createCuota(GenerarCuota){
-        return axios.post("http://localhost:8080/cuota/generatepago", GenerarCuota);
+        return axios.post(API_URL_CUOTA + "generatepago", GenerarCuota);
     }
+
 
 
 

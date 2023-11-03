@@ -86,7 +86,7 @@ function CuotaCreateComponent(){
                 };
 
                 console.log(newGenerarCuota);
-                //CuotaService.createCuota(newGenerarCuota);
+                CuotaService.createCuota(newGenerarCuota);
 
                 Swal.fire({
                     title: "Enviado",

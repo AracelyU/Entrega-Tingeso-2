@@ -23,9 +23,9 @@ public class Student {
 
     private LocalDate fecha_nacimiento;
 
-    private String tipo_escuela;
+    private String tipo_colegio;
 
-    private String nombre_escuela;
+    private String nombre_colegio;
 
     private Integer anio_egreso;
 

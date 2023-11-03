@@ -39,7 +39,29 @@ tr:nth-child(even) {
 
 tr:hover td{
     background-color: #4a90e2;
-    color: white;
+    color: rgba(168, 185, 208, 0.8);
 }
 
 
+/*----*/
+
+.agregar {
+    color: #2d2d2d;
+    text-decoration: none;
+    text-transform: uppercase; /*capitalización texto*/
+    font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+    border-radius: 50px; /*bordes redondos*/
+    margin: 10px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.form-select {
+    border: 1px solid #3c3948;
+    border-radius: 5px;
+    color: #3c3948;
+}
+
+.form-select option {
+    color: #3c3948;
+}

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
 
 import java.util.List;
 
@@ -27,39 +29,42 @@ public class CuotaController {
         return ResponseEntity.ok(cuotas);
     }
 
-    /*
-
-    // obtener cuota por estudiante
+    // obtener cuotas por estudiante
     @GetMapping("/bystudent/{studentId}")
     public ResponseEntity<List<Cuota>> getByStudentId(@PathVariable("studentId") int studentId) {
-        List<Cuota> books = cuotaService.obtenerCuotasPorEstudiante_Id(studentId);
-        return ResponseEntity.ok(books);
+        List<Cuota> cuotas = cuotaService.obtenerCuotasPorEstudiante_Id(studentId);
+        if(cuotas == null){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(cuotas);
     }
 
-     */
-
-    /* obtener estudiante
-    */
-    @GetMapping("/student/{studentId}")
-    public ResponseEntity<Student> getByStudentId(@PathVariable("studentId") int studentId) {
-        Student s = cuotaService.obtenerEstudiantePorId(studentId);
-        return ResponseEntity.ok(s);
+    // obtener estudiante según su id
+    @GetMapping("/student/{id}")
+    public ResponseEntity<Student> getStudentById(@PathVariable("id") int id) {
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Student> response = restTemplate.getForEntity("http://localhost:8080/student/" + id, Student.class);
+        return response;
     }
 
     // generar pago
     @PostMapping("/generatepago")
     public ResponseEntity<GenerarCuota> createdPayment(@RequestBody GenerarCuota generarCuota){
-        String mensaje = cuotaService.verificarGuardarPago(generarCuota.getId_estudiante(), generarCuota.getNum_cuotas(), generarCuota.getTipo_pago());
-        if (!mensaje.equals("El pago se generó con éxito.")) {
+        //String mensaje = cuotaService.verificarGuardarPago(generarCuota.getId_estudiante(), generarCuota.getNum_cuotas(), generarCuota.getTipo_pago());
+
+        //System.out.println(mensaje);
+        //if (!mensaje.equals("El pago se generó con éxito.")) {
             // Devuelve una respuesta de error con un código de estado 400 Bad Request
-            return ResponseEntity.noContent().build();
-        }
-        System.out.println(mensaje);
+            //return ResponseEntity.noContent().build();
+        //}
 
         // generar las cuotas
-        //cuotaService.guardarPago(student_id, num_cuotas, tipo_pago);
+        cuotaService.guardarPago(generarCuota.getId_estudiante(), generarCuota.getNum_cuotas(), generarCuota.getTipo_pago());
         return ResponseEntity.ok(generarCuota);
     }
+
+
+
 
 
     // crear pago
