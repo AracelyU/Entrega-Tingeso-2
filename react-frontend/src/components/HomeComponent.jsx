@@ -15,11 +15,14 @@ export default function Home(){
 
             <br></br><br></br>
 
-            <a className="boton" href="/lista_estudiantes"> Listar Estudiantes</a>
+            <a className="boton" href="/lista-estudiantes"> Listar Estudiantes</a>
             <br></br>
-            <a className="boton" href="/crear_estudiantes"> Crear Estudiante</a>
+            <a className="boton" href="/crear-estudiante"> Crear Estudiante</a>
             <br></br>
-            <a className="boton" href="/subir_archivo"> Cargar Archivo</a>
+            <a className="boton" href="/crear-pago"> Generar Pago</a>
+            <br></br>
+            <a className="boton" href="/subir-archivo"> Cargar Archivo</a>
+
 
 
 

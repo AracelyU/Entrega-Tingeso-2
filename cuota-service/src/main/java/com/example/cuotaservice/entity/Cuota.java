@@ -1,4 +1,4 @@
-package com.tutorial.cuotaservice.entity;
+package com.example.cuotaservice.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

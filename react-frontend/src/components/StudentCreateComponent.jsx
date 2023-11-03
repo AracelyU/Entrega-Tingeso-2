@@ -6,6 +6,8 @@ import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2';
 import StudentService from "../service/StudentService";
 import studentService from "../service/StudentService";
+import "../style/css/EstiloFormulario.css"
+import "../style/css/EstiloHome.css"
 
 function StudentCreateComponent(props) {
 
@@ -20,6 +22,7 @@ function StudentCreateComponent(props) {
     };
 
     const [input, setInput] = useState(initialState);
+
     const navigate = useNavigate();
     const navigateHome = () => {
         navigate("/");
@@ -57,6 +60,14 @@ function StudentCreateComponent(props) {
 
     const ingresarEstudiante = (event) => {
 
+        console.log(input.rut);
+        console.log(input.nombre_estudiante);
+        console.log(input.apellido_estudiante);
+        console.log(input.fecha_nacimiento);
+        console.log(input.tipo_colegio);
+        console.log(input.nombre_colegio);
+        console.log(input.anio_egreso);
+
         Swal.fire({
             title: "¿Desea registrar el estudiante?",
             text: "No podra cambiarse en caso de equivocación",
@@ -68,6 +79,39 @@ function StudentCreateComponent(props) {
             denyButtonColor: "rgb(190, 54, 54)",
 
         }).then((result) => {
+
+            // Validar el tipo de dato para fecha_nacimiento
+            if (typeof input.fecha_nacimiento !== "string" || isNaN(Date.parse(input.fecha_nacimiento))) {
+                Swal.fire({
+                    title: "Error",
+                    text: "Fecha de nacimiento no es válida",
+                    icon: "error",
+                });
+                return;
+            }
+
+            // Validar el tipo de dato para anio_egreso no sea negativo
+            if (input.anio_egreso < 0) {
+                Swal.fire({
+                    title: "Error",
+                    text: "El año debe de ser positivo",
+                    icon: "error",
+                });
+                return;
+            }
+
+            /*
+            // Verifica si el Rut ya existe antes de agregar el estudiante.
+            if (checkRutExistence(input.rut)) {
+                Swal.fire({
+                    title: "Error",
+                    text: "El Rut ya está registrado",
+                    icon: "error",
+                });
+                return;
+            }
+
+             */
 
             // Validar los campos de entrada
             if (
@@ -87,37 +131,8 @@ function StudentCreateComponent(props) {
                 return; // Salir de la función si falta algún campo obligatorio.
             }
 
-            // Validar el tipo de dato para fecha_nacimiento
-            if (typeof input.fecha_nacimiento !== "string" || isNaN(Date.parse(input.fecha_nacimiento))) {
-                Swal.fire({
-                    title: "Error",
-                    text: "Fecha de nacimiento no es válida",
-                    icon: "error",
-                });
-                return;
-            }
-
-            // Validar el tipo de dato para anio_egreso
-            if (isNaN(input.anio_egreso)) {
-                Swal.fire({
-                    title: "Error",
-                    text: "Año de egreso debe ser un número",
-                    icon: "error",
-                });
-                return;
-            }
-
-            // Verifica si el Rut ya existe antes de agregar el estudiante.
-            if (checkRutExistence(input.rut)) {
-                Swal.fire({
-                    title: "Error",
-                    text: "El Rut ya está registrado",
-                    icon: "error",
-                });
-                return;
-            }
-
             if (result.isConfirmed) {
+
                 // Se forma al estudiante
                 let newEstudiante = {
                     rut: input.rut,
@@ -153,9 +168,13 @@ function StudentCreateComponent(props) {
 
     return(
         <div className="general">
-            <HeaderComponent />
-            <div className="container-create">
-                <Form>
+            <br></br>
+            <a className="botonVolver" href="/"> Volver Al Menú Principal</a>
+            <h2>Registro Estudiante</h2>
+            <hr></hr>
+
+            <div className="form">
+                <Form >
                     <Form.Group className="mb-3" controlId="rut" value = {input.rut} onChange={changeRutHandler}>
                         <Form.Label className="agregar">Rut:</Form.Label>
                         <Form.Control className="agregar" type="text" name="rut"/>
@@ -184,10 +203,10 @@ function StudentCreateComponent(props) {
                     <Form.Group className="mb-3" controlId="tipo_colegio">
                         <Form.Label className="agregar"> Tipo Colegio: </Form.Label>
                         <select className="agregar" name="tipo_colegio" required value = {input.tipo_colegio} onChange={changeTipoColegioHandler}>
-                            <option value="0" disabled>Tipo Colegio</option>
-                            <option value="1">Municipal</option>
-                            <option value="2">Subvencionado</option>
-                            <option value="3">Privado</option>
+                            <option value="">Tipo Colegio</option>
+                            <option value="municipal">Municipal</option>
+                            <option value="subvencionado">Subvencionado</option>
+                            <option value="privado">Privado</option>
                         </select>
                     </Form.Group>
 
@@ -196,7 +215,7 @@ function StudentCreateComponent(props) {
                         <Form.Control className="agregar" type="text" name="nombre_colegio"/>
                     </Form.Group>
 
-                    <Button className="boton" onClick={ingresarEstudiante}>Registrar Estudiante</Button>
+                    <Button className="botonRegistro" onClick={ingresarEstudiante}>Registrar Estudiante</Button>
 
                 </Form>
             </div>

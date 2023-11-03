@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import "../style/css/EstiloTabla.css"
+import "../style/css/EstiloHome.css"
 
 
 class StudentListComponent extends Component{
@@ -18,12 +20,13 @@ class StudentListComponent extends Component{
 
     render(){
         return(
-            <div className="home">
-                <h1>Listado de Estudiantes</h1>
+            <div className="main-container">
+                <a className="botonVolver" href="/"> Volver Al Menú Principal</a>
+                <h2>Listado de Estudiantes</h2>
+                <hr></hr>
                 <table className="table">
-                    <thead className="thead-dark">
+                    <thead>
                     <tr>
-                        <th>ID</th>
                         <th>RUT</th>
                         <th>Nombre</th>
                         <th>Apellido</th>
@@ -31,20 +34,18 @@ class StudentListComponent extends Component{
                         <th>Tipo de Escuela</th>
                         <th>Nombre de la Escuela</th>
                         <th>Año de egreso</th>
-                        <th>Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
 
                     {this.state.students.map((student) => (
                         <tr key={student.id}>
-                            <td>{student.id}</td>
                             <td>{student.rut}</td>
                             <td>{student.nombre_estudiante}</td>
                             <td>{student.apellido_estudiante}</td>
                             <td>{student.fecha_nacimiento}</td>
-                            <td>{student.tipo_escuela}</td>
-                            <td>{student.nombre_escuela}</td>
+                            <td>{student.tipo_colegio}</td>
+                            <td>{student.nombre_colegio}</td>
                             <td>{student.anio_egreso}</td>
                         </tr>
                     ))}

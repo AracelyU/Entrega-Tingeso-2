@@ -1,7 +1,8 @@
-package com.tutorial.cuotaservice.controller;
+package com.example.cuotaservice.controller;
 
-import com.tutorial.cuotaservice.entity.Cuota;
-import com.tutorial.cuotaservice.service.CuotaService;
+import com.example.cuotaservice.entity.Cuota;
+import com.example.cuotaservice.entity.GenerarCuota;
+import com.example.cuotaservice.service.CuotaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,8 @@ public class CuotaController {
         return ResponseEntity.ok(cuotas);
     }
 
+    /*
+
     // obtener cuota por estudiante
     @GetMapping("/bystudent/{studentId}")
     public ResponseEntity<List<Cuota>> getByStudentId(@PathVariable("studentId") int studentId) {
@@ -32,19 +35,21 @@ public class CuotaController {
         return ResponseEntity.ok(books);
     }
 
+     */
+
     // generar pago
-    @GetMapping("/generatepago/{num_cuotas}/{monto_cuotas}/{tipo_pago}/{student_id}")
-    public ResponseEntity<String> createdPayment(@PathVariable("num_cuotas") int num_cuotas,
-                                                 @PathVariable("tipo_pago") String tipo_pago,
-                                                 @PathVariable("student_id") int student_id){
-        String mensaje = cuotaService.verificarGuardarPago(student_id, num_cuotas, tipo_pago);
+    @PostMapping("/generatepago")
+    public ResponseEntity<String> createdPayment(@RequestBody GenerarCuota generarCuota){
+        String mensaje = cuotaService.verificarGuardarPago(generarCuota.getId_estudiante(), generarCuota.getNum_cuotas(), generarCuota.getTipo_pago());
         if (!mensaje.equals("El pago se generó con éxito.")) {
             // Devuelve una respuesta de error con un código de estado 400 Bad Request
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensaje);
         }
 
+        System.out.println(mensaje);
+
         // generar las cuotas
-        cuotaService.guardarPago(student_id, num_cuotas, tipo_pago);
+        //cuotaService.guardarPago(student_id, num_cuotas, tipo_pago);
         return ResponseEntity.ok(mensaje);
     }
 

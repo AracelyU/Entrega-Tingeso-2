@@ -9,9 +9,8 @@ class StudentService{
         return axios.post(API_URL_STUDENT, estudiante);
     }
 
-
     verificarRut(rut){
-        return axios.post(API_URL_STUDENT + "/rut", rut);
+        return axios.post(API_URL_STUDENT + "rut", rut);
     }
 
 

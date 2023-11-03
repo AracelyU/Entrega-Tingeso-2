@@ -1,8 +1,8 @@
-package com.tutorial.cuotaservice.service;
+package com.example.cuotaservice.service;
 
-import com.tutorial.cuotaservice.entity.Cuota;
-import com.tutorial.cuotaservice.model.Student;
-import com.tutorial.cuotaservice.repository.CuotaRepository;
+import com.example.cuotaservice.entity.Cuota;
+import com.example.cuotaservice.model.Student;
+import com.example.cuotaservice.repository.CuotaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,10 +27,13 @@ public class CuotaService {
         return cuotaRepository.findAll();
     }
 
+    /*
     // obtener las cuotas de un estudiante según su id
     public List<Cuota> obtenerCuotasPorEstudiante_Id(int studentId) {
         return cuotaRepository.findByStudentId(studentId);
     }
+
+     */
 
     // obtener estudiante por id
     public Student obtenerEstudiantePorId(int studentId) {
@@ -52,7 +55,7 @@ public class CuotaService {
         }
 
         int dia_actual = LocalDateTime.now().getDayOfMonth();
-        if(dia_actual >= 5 || dia_actual <= 10){
+        if(dia_actual >= 5 && dia_actual <= 10){
             return "No se pueden generar pagos mientras se es la fecha de pago";
         }
 
@@ -94,6 +97,7 @@ public class CuotaService {
         return "El pago se generó con éxito.";
     }
 
+    /*
     // genera un pago
     public void guardarPago(int id_estudiante, int numeroCuotas, String tipoPago){
         Student s = obtenerEstudiantePorId(id_estudiante);
@@ -107,7 +111,7 @@ public class CuotaService {
         if(s.getTipo_pago().equals("contado")){
             monto = 750000F;
         }else{
-            monto = 1500000 * (1 - descuentoAnioEgreso(s) - descuentoTipoEscuela(s)) / numeroCuotas);
+            monto = 1500000 * (1 - descuentoAnioEgreso(s) - descuentoTipoEscuela(s)) / numeroCuotas;
         }
 
         generarCuotas(id_estudiante, numeroCuotas, monto, tipoPago);
@@ -166,6 +170,8 @@ public class CuotaService {
             return 0;
         }
     }
+
+     */
 
 
     /*

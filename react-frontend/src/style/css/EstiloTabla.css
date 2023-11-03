@@ -1,0 +1,45 @@
+
+
+.main-container {
+    margin: 20px auto;
+    width: 1200px;
+}
+
+h2{
+    color: rgba(255, 255, 255, 0.8);
+    margin: 20px;
+    text-align: center;
+}
+
+table {
+    background-color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    padding: 15px;
+    border-collapse: collapse;
+    width: 100%;
+
+}
+
+td, td {
+    padding: 15px;
+}
+
+/* encabezado */
+thead{;
+    background-color: #2e518b;
+    border-bottom: 5px solid #282c34;
+    color: #FFFFFF;
+
+}
+
+tr:nth-child(even) {
+    background-color: rgba(74, 144, 226, 0.2);
+}
+
+
+tr:hover td{
+    background-color: #4a90e2;
+    color: white;
+}
+
+
