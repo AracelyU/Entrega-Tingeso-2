@@ -16,6 +16,7 @@ function App() {
                   <Route path= "/crear-estudiante" element={<StudentCreateComponent />} />
                   <Route path= "/crear-pago" element={<CuotaCreateComponent />} />
                   <Route path= "/mostrar-pago" element={<CuotaListComponent />} />
+                  <Route path= "/pagar-pago" element={<CuotaPayComponent />} />
 
               </Routes>
           </BrowserRouter>

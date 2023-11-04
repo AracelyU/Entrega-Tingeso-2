@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../style/css/EstiloTabla.css"
-import "../style/css/EstiloHome.css"
+import "../style/css/EstiloBotones.css"
 
 
 class StudentListComponent extends Component{
@@ -9,8 +9,19 @@ class StudentListComponent extends Component{
         super(props);
         this.state = {
             students: [],
+            student_id: "",
+        };
+
+        this.handleStudent_idChange = event => {
+            this.setState({
+                student_id: event.target.value,
+            });
         };
     }
+
+
+
+
 
     componentDidMount(){
         fetch("http://localhost:8080/student")
@@ -64,11 +75,6 @@ class StudentListComponent extends Component{
                             <td>{student.tipo_colegio}</td>
                             <td>{student.nombre_colegio}</td>
                             <td>{student.anio_egreso}</td>
-
-                            <td>
-                                <a className="botonVolver" href="/pagar-cuota"> Pagar Cuotas</a>
-                            </td>
-
                         </tr>
 
                     ))}

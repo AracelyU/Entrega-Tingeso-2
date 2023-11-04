@@ -1,0 +1,75 @@
+/*botones*/
+
+.boton {
+    border: 1px solid #2e518b; /*anchura, estilo y color borde*/
+    background-color: #2e518b; /*color botón*/
+    color: #ffffff; /*color texto*/
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase; /*capitalización texto*/
+    font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+    border-radius: 50px; /*bordes redondos*/
+    font-size: 18px;
+    padding: 10px 15px;
+    width: 220px;
+    display: block;
+    margin: 0 auto;
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    transition: background-color 0.3s; /* Agregar una transición suave para el cambio de color de fondo */
+}
+
+/* Estilos CSS para el botón cuando el ratón pasa sobre él */
+.boton:hover {
+    background-color: #4a90e2; /* Cambiar el color de fondo cuando el ratón pasa sobre el botón */
+    border:none;
+}
+
+
+.botonVolver{
+    border: 1px solid #2e518b; /*anchura, estilo y color borde*/
+    background-color: #2e518b; /*color botón*/
+    color: #ffffff; /*color texto*/
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase; /*capitalización texto*/
+    font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+    border-radius: 50px; /*bordes redondos*/
+    font-size: 12px;
+    padding: 10px 15px;
+    width: 200px;
+    display: block;
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    transition: background-color 0.3s; /* Agregar una transición suave para el cambio de color de fondo */
+
+}
+
+.botonVolver:hover {
+    background-color: #4a90e2; /* Cambiar el color de fondo cuando el ratón pasa sobre el botón */
+    border:none;
+}
+
+
+
+.botonRegistro{
+    border: 1px solid #2e518b; /*anchura, estilo y color borde*/
+    background-color: #2e518b; /*color botón*/
+    color: #ffffff; /*color texto*/
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase; /*capitalización texto*/
+    font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+    border-radius: 50px; /*bordes redondos*/
+    font-size: 12px;
+    padding: 10px 15px;
+    width: 200px;
+    margin: 10px;
+    display: block;
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    transition: background-color 0.3s; /* Agregar una transición suave para el cambio de color de fondo */
+
+}
+
+.botonRegistro:hover {
+    background-color: #4a90e2; /* Cambiar el color de fondo cuando el ratón pasa sobre el botón */
+    border:none;
+}

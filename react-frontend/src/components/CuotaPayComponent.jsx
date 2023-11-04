@@ -1,0 +1,163 @@
+import React, {Component} from "react";
+import Form from 'react-bootstrap/Form';
+import "../style/css/EstiloFormulario.css"
+import "../style/css/EstiloHome.css"
+import "../style/css/EstiloTabla.css"
+import "../style/css/EstiloSelect.css"
+import axios from "axios";
+
+async function updateCuota(idCuota) {
+    const response = await axios.put(`http://localhost:8080/cuota/pagar/${idCuota}`, {
+    });
+
+    return response.data;
+}
+
+class CuotaPayComponent extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            id_estudiante: "",
+            cuotas: [],
+            students: [],
+        };
+
+        this.changeId_EstudianteHandler = event => {
+            this.setState({ id_estudiante: event.target.value });
+        };
+
+        this.handleSubmit = event => {
+            event.preventDefault();
+            const { id_estudiante } = this.state;
+            // Obtenemos las cuotas del estudiante
+            axios.get(`http://localhost:8080/cuota/bystudent/pendiente/${id_estudiante}`)
+                .then((response) => {
+                    this.setState({ cuotas: response.data });
+                });
+        };
+
+    }
+
+
+
+    componentDidMount() {
+        fetch("http://localhost:8080/student")
+            .then((response) => response.json())
+            .then((data) => this.setState({ students: data }));
+    }
+
+    render() {
+
+        const { cuotas } = this.state;
+        const { students } = this.state;
+
+        if(students.length === 0){
+            return(
+                <div>
+                    <br></br>
+                    <a className="botonVolver" href="/"> Volver Al Menú Principal</a>
+                    <h2>Pagar Cuotas</h2>
+                    <hr></hr>
+                    <h2>No hay Alumnos registrados</h2>
+                </div>
+            )
+        }
+
+        if(cuotas.length === 0){
+            return(
+                <div>
+                    <br></br>
+                    <a className="botonVolver" href="/"> Volver Al Menú Principal</a>
+                    <h2>Pagar Cuotas</h2>
+                    <hr></hr>
+
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <Form.Group className="mb-3" controlId="id_estudiante">
+                            <Form.Label className="agregar">Estudiante</Form.Label>
+                            <select className="agregar form-select" name="id_estudiante" required value = {this.state.id_estudiante} onChange={this.changeId_EstudianteHandler}>
+                                <option value={""} disabled>Selecione Estudiante</option>
+                                {students.map((student, index) => (
+                                    <option key={index} value={student.id}>
+                                        {student.nombre_estudiante} {student.apellido_estudiante}
+                                    </option>
+                                ))}
+                            </select>
+                            <i></i>
+                        </Form.Group>
+                        <button type="button" className="botonVolver" onClick={this.handleSubmit}>
+                            Consultar Cuotas
+                        </button>
+                    </div>
+
+                    <hr></hr>
+                    <h2>El Alumno no tiene un pago registrado</h2>
+
+                </div>
+            )
+        }
+
+        return (
+            <div>
+                <br></br>
+                <a className="botonVolver" href="/"> Volver Al Menú Principal</a>
+                <h2>Pagar Cuotas</h2>
+                <hr></hr>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                    <Form.Group className="mb-3" controlId="id_estudiante">
+                        <Form.Label className="agregar">Estudiante</Form.Label>
+                        <select className="agregar form-select" name="id_estudiante" required value = {this.state.id_estudiante} onChange={this.changeId_EstudianteHandler}>
+                            <option value={""} disabled>Selecione Estudiante</option>
+                            {students.map((student, index) => (
+                                <option key={index} value={student.id}>
+                                    {student.nombre_estudiante} {student.apellido_estudiante}
+                                </option>
+                            ))}
+                        </select>
+                        <i></i>
+                    </Form.Group>
+                    <button type="button" className="botonVolver" onClick={this.handleSubmit}>
+                        Consultar Cuotas
+                    </button>
+                </div>
+
+                <hr></hr>
+                <table className="table">
+                    <thead>
+                    <tr>
+                        <th>Nro Cuota</th>
+                        <th>Monto</th>
+                        <th>Tipo</th>
+                        <th>Fecha Vencimiento</th>
+                        <th>Fecha Pago</th>
+                        <th>Estado Pago</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {this.state.cuotas.map((cuota, index) => (
+                        <tr className="no-hover" key={cuota.id}>
+                            <td>{cuota.num_cuota}</td>
+                            <td>{cuota.monto}</td>
+                            <td>{cuota.tipo_pago}</td>
+                            <td>{cuota.fecha_vencimiento}</td>
+                            <td>{cuota.fecha_pago}</td>
+                            <td>{cuota.estado_pago}</td>
+                            <td>
+                                <button type="button" className="botonVolver" onClick={() => updateCuota(cuota.id)}>
+                                    Pagar
+                                </button>
+                            </td>
+                        </tr>
+
+                    ))}
+                    </tbody>
+                </table>
+            </div>
+        );
+    }
+}
+
+export default CuotaPayComponent;

@@ -41,57 +41,6 @@ public class CuotaService {
         return response.getBody();
     }
 
-    // verifica si se cumplen las condiciones para generar un pago MEJOR HACERLO EN FRONTEND
-    public String verificarGuardarPago(int id_estudiante, int numeroCuotas, String tipoPago){
-        Student s = obtenerEstudiantePorId(id_estudiante);
-
-        if(s == null){
-            return "el id del estudiante ingresado no existe.";
-        }
-
-        int dia_actual = LocalDateTime.now().getDayOfMonth();
-        if(dia_actual >= 5 && dia_actual <= 10){
-            return "No se pueden generar pagos en la fecha de pago";
-        }
-
-        if(s.getPago() != 0){
-            return "Este estudiante ya tiene un pago registrado.";
-        }
-
-        if(numeroCuotas <= 0){
-            return "El número de cuotas debe de ser positivo.";
-        }
-
-        if(tipoPago.equals("contado") && numeroCuotas != 1){
-            return "El pago al contado no deben de hacer más de 1 cuota.";
-        }
-
-        switch (s.getTipo_colegio()){
-            case "municipal":
-                if(numeroCuotas > 10){
-                    return "Para tipo de escuela municipal se ingreso más de 10 cuotas.";
-                }
-                break;
-
-            case "subvencionado":
-                if(numeroCuotas > 7){
-                    return "Para tipo de escuela subvencionado se ingreso más de 7 cuotas.";
-                }
-                break;
-
-            case "privado":
-                if(numeroCuotas > 4){
-                    return "Para tipo de escuela privado se ingreso más de 4 cuotas.";
-                }
-                break;
-
-            default:
-                return "Error en tipo de escuela.";
-        }
-
-        return "El pago se generó con éxito.";
-    }
-
     // genera un pago
     public void guardarPago(int id_estudiante, int numeroCuotas, String tipoPago){
         Student s = obtenerEstudiantePorId(id_estudiante);
@@ -151,6 +100,74 @@ public class CuotaService {
         }else{
             return 0;
         }
+    }
+
+    // obtener cuotas pendientes por un estudiante
+    public List<Cuota> obtenerCuotasPendientesPorEstudiante_id(int id){
+        return cuotaRepository.findByEstudiante_idPendiente(id);
+    }
+
+
+    // cambia el estado de la cuota a un estado ya pagado
+    public Cuota pagarCuota(int id){
+        LocalDateTime fechaActual = LocalDateTime.now();
+        Cuota c = cuotaRepository.findById(id);
+        c.setEstado_pago("pagado");
+        c.setFecha_pago(LocalDate.from(fechaActual));
+        cuotaRepository.save(c);
+        return c;
+    }
+
+
+    // verifica si se cumplen las condiciones para generar un pago MEJOR HACERLO EN FRONTEND
+    public String verificarGuardarPago(int id_estudiante, int numeroCuotas, String tipoPago){
+        Student s = obtenerEstudiantePorId(id_estudiante);
+
+        if(s == null){
+            return "el id del estudiante ingresado no existe.";
+        }
+
+        int dia_actual = LocalDateTime.now().getDayOfMonth();
+        if(dia_actual >= 5 && dia_actual <= 10){
+            return "No se pueden generar pagos en la fecha de pago";
+        }
+
+        if(s.getPago() != 0){
+            return "Este estudiante ya tiene un pago registrado.";
+        }
+
+        if(numeroCuotas <= 0){
+            return "El número de cuotas debe de ser positivo.";
+        }
+
+        if(tipoPago.equals("contado") && numeroCuotas != 1){
+            return "El pago al contado no deben de hacer más de 1 cuota.";
+        }
+
+        switch (s.getTipo_colegio()){
+            case "municipal":
+                if(numeroCuotas > 10){
+                    return "Para tipo de escuela municipal se ingreso más de 10 cuotas.";
+                }
+                break;
+
+            case "subvencionado":
+                if(numeroCuotas > 7){
+                    return "Para tipo de escuela subvencionado se ingreso más de 7 cuotas.";
+                }
+                break;
+
+            case "privado":
+                if(numeroCuotas > 4){
+                    return "Para tipo de escuela privado se ingreso más de 4 cuotas.";
+                }
+                break;
+
+            default:
+                return "Error en tipo de escuela.";
+        }
+
+        return "El pago se generó con éxito.";
     }
 
 }

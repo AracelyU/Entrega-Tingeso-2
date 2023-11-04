@@ -1,14 +1,12 @@
 import React, {Component, useEffect, useState} from "react";
-import { useNavigate } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Swal from 'sweetalert2';
 import "../style/css/EstiloFormulario.css"
 import "../style/css/EstiloHome.css"
-import CuotaService from "../service/CuotaService";
 import "../style/css/EstiloTabla.css"
-import * as students from "react-bootstrap/ElementChildren";
 import axios from "axios";
+import "../style/css/EstiloSelect.css"
+import "../style/css/EstiloBotones.css"
+import "../style/css/EstiloTitulos.css"
 
 class CuotaListComponent extends Component {
 

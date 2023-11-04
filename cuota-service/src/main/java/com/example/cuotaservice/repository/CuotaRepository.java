@@ -11,8 +11,16 @@ import java.util.List;
 @Repository
 public interface CuotaRepository extends JpaRepository<Cuota, Integer> {
 
+    // encontrar cuota por su id
+    @Query("Select c from Cuota c where c.id = :id")
+    Cuota findById(@Param("id") int id);
+
     // cuotas asociadas a un estudiante sin importar el tipo
     @Query("Select c from Cuota c where c.estudiante_id = :id")
     List<Cuota> findByEstudiante_id(@Param("id") int id);
+
+    // cuotas pendientes asociadas a un estudiante
+    @Query("Select c from Cuota c where c.estudiante_id = :id and c.estado_pago = 'pendiente'")
+    List<Cuota> findByEstudiante_idPendiente(@Param("id") int id);
 
 }

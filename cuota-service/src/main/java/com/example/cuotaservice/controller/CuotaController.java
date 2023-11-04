@@ -39,6 +39,16 @@ public class CuotaController {
         return ResponseEntity.ok(cuotas);
     }
 
+    // obtener cuotas pendientes por estudiante
+    @GetMapping("/bystudent/pendiente/{studentId}")
+    public ResponseEntity<List<Cuota>> getByStudentIdPendiente(@PathVariable("studentId") int studentId) {
+        List<Cuota> cuotas = cuotaService.obtenerCuotasPendientesPorEstudiante_id(studentId);
+        if(cuotas == null){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(cuotas);
+    }
+
     // obtener estudiante según su id
     @GetMapping("/student/{id}")
     public ResponseEntity<Student> getStudentById(@PathVariable("id") int id) {
@@ -61,6 +71,13 @@ public class CuotaController {
         // generar las cuotas
         cuotaService.guardarPago(generarCuota.getId_estudiante(), generarCuota.getNum_cuotas(), generarCuota.getTipo_pago());
         return ResponseEntity.ok(generarCuota);
+    }
+
+    // cambiar el estado de la cuota
+    @PutMapping("/pagar/{id}")
+    public ResponseEntity<?> pagarCuota(@PathVariable int id) {
+        Cuota cuota = cuotaService.pagarCuota(id);
+        return ResponseEntity.ok(cuota);
     }
 
 

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import "../style/css/EstiloHome.css"
+import "../style/css/EstiloBotones.css"
+import "../style/css/EstiloTitulos.css"
 
 
 export default function Home(){
@@ -22,6 +24,8 @@ export default function Home(){
             <a className="boton" href="/crear-pago"> Generar Pago</a>
             <br></br>
             <a className="boton" href="/mostrar-pago"> Mostrar Pago</a>
+            <br></br>
+            <a className="boton" href="/pagar-pago"> Pagar Pago</a>
             <br></br>
             <a className="boton" href="/subir-archivo"> Cargar Archivo</a>
 
