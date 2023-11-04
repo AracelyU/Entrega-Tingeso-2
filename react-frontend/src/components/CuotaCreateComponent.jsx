@@ -6,17 +6,19 @@ import Swal from 'sweetalert2';
 import "../style/css/EstiloFormulario.css"
 import "../style/css/EstiloHome.css"
 import CuotaService from "../service/CuotaService";
+import studentService from "../service/StudentService";
+import cuotaService from "../service/CuotaService";
+import axios from "axios";
 
 function CuotaCreateComponent(){
 
+    const navigate = useNavigate();
+    const navigateHome = () => {
+        navigate("/");
+    };
+
     const [students, setStudents] = useState([]);
-
-    useEffect(()=>{
-        fetch("http://localhost:8080/student")
-            .then(response=>response.json())
-            .then(data=>setStudents(data.map(({id, nombre_estudiante, apellido_estudiante})=>({id, nombre_estudiante, apellido_estudiante}))))
-    },[])
-
+    const [estudiante, setEstudiante] = useState(null);
 
     const initialState = {
         num_cuotas: "",
@@ -26,10 +28,28 @@ function CuotaCreateComponent(){
 
     const [input, setInput] = useState(initialState);
 
-    const navigate = useNavigate();
-    const navigateHome = () => {
-        navigate("/");
+
+    useEffect(()=>{
+        fetch("http://localhost:8080/student")
+            .then(response=>response.json())
+            .then(data=>setStudents(data.map(({id, nombre_estudiante, apellido_estudiante})=>({id, nombre_estudiante, apellido_estudiante}))))
+    },[])
+
+
+    /*
+    const handleSubmit = () => {
+        // Obtenemos al estudiante
+        axios.get(`http://localhost:8080/cuota/student/${input.id_estudiante}`)
+            .then((response) => {
+                // Asigna el objeto estudiante al estado estudiante
+                setEstudiante(response.data);
+            });
     };
+
+    this.handleSubmit = handleSubmit;
+
+
+     */
 
     const changeNum_CuotasHandler = event => {
         setInput({...input, num_cuotas: event.target.value});
@@ -42,6 +62,14 @@ function CuotaCreateComponent(){
     };
 
     // hacer función que verifique si un estudiante ya tiene un pago asociado
+    const checkPagoExistence = (id) => {
+        if(cuotaService.verificarCuotas(id) == null){ // si no hay contenido no hay pago pendiente o pago
+            return false;
+        }
+        return true;
+    };
+
+
 
     // hacer funcion que obtenga el tipo de colegio del id estudiante ingresado
 
@@ -50,6 +78,7 @@ function CuotaCreateComponent(){
         console.log(input.num_cuotas);
         console.log(input.tipo_pago);
         console.log(input.id_estudiante);
+
 
         Swal.fire({
             title: "¿Desea registrar el pago?",
@@ -63,7 +92,33 @@ function CuotaCreateComponent(){
 
         }).then((result) => {
 
-            // Validar los campos de entrada
+
+            // Verifica si hay pago pendiente o si no hay pago existe antes de crear el pago.
+            if (checkPagoExistence(input.id_estudiante)) {
+                Swal.fire({
+                    title: "Error",
+                    text: "El estudiante no tiene un pago o aún no lo ha pagado completamente",
+                    icon: "error",
+                });
+                return;
+            }
+
+
+            // verifica la cantidad de cuotas según el tipo_colegio del estudiante
+
+
+            // Verifica si el día actual está entre el 5 y el 10
+            const today = new Date();
+            const dayOfMonth = today.getDate();
+            if (dayOfMonth >= 5 && dayOfMonth <= 10) {
+                Swal.fire({
+                    title: "Error",
+                    text: "No se puede registrar un pago entre el 5 y el 10 de cada mes",
+                    icon: "error",
+                });
+                return;
+            }
+
             if (
                 !input.num_cuotas ||
                 !input.tipo_pago ||

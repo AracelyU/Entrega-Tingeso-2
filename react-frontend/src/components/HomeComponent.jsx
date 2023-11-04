@@ -27,7 +27,7 @@ export default function Home(){
             <br></br>
             <a className="boton" href="/pagar-pago"> Pagar Pago</a>
             <br></br>
-            <a className="boton" href="/subir-archivo"> Cargar Archivo</a>
+            <a className="boton" href="/cargar-archivo"> Cargar Archivo</a>
 
 
 

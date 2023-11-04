@@ -37,6 +37,7 @@
     font-size: 12px;
     padding: 10px 15px;
     width: 200px;
+    margin: 20px;
     display: block;
     cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
     transition: background-color 0.3s; /* Agregar una transición suave para el cambio de color de fondo */

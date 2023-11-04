@@ -10,6 +10,17 @@ class CuotaService{
     }
 
 
+    // si tienes cuotas pendientes aún tienes un pago pendiente
+    verificarCuotas(id){
+        return axios.get(API_URL_CUOTA + "bystudent/"+ id);
+    }
+
+    // obtener estudiante según su id
+    getEstudiante(id){
+        return axios.get(API_URL_CUOTA + "student/" + id);
+    }
+
+
 
 
 

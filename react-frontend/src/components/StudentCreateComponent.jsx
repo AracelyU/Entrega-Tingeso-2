@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import HeaderComponent from "../Headers/HeaderComponent";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2';
@@ -50,7 +49,7 @@ function StudentCreateComponent(props) {
         setInput({...input, nombre_colegio: event.target.value});
     };
 
-    // 1. En el servicio (StudentService), crea una función para verificar la existencia de un Rut.
+    // verificar la existencia de un Rut, para ver si es repetido o nos
     const checkRutExistence = (rut) => {
         if(studentService.verificarRut(rut) == null){ // si no hay contenido el rut no es repetido
             return false;
@@ -100,8 +99,9 @@ function StudentCreateComponent(props) {
                 return;
             }
 
+
             /*
-            // Verifica si el Rut ya existe antes de agregar el estudiante.
+            // Verifica si el Rut ya existe antes de agregar el estudiante. REVISAR
             if (checkRutExistence(input.rut)) {
                 Swal.fire({
                     title: "Error",
@@ -112,6 +112,7 @@ function StudentCreateComponent(props) {
             }
 
              */
+
 
             // Validar los campos de entrada
             if (
