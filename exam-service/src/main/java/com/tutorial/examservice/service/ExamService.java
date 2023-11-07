@@ -23,6 +23,7 @@ public class ExamService {
     // la función guardar es para traer a la carpeta src los archivos seleccionados
     public String guardar(MultipartFile file){
         String filename = file.getOriginalFilename();
+        assert filename != null;
         if(!filename.toLowerCase().contains(".csv")){
             return "No ingreso un archivo csv";
         }

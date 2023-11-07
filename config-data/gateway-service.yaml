@@ -35,4 +35,4 @@ spring:
         - id: exam-service
           uri: lb://exam-service
           predicates:
-            - Path=/exam/**
+            - Path=/examen/**
