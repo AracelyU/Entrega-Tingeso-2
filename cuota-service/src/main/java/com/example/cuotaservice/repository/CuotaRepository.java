@@ -23,4 +23,24 @@ public interface CuotaRepository extends JpaRepository<Cuota, Integer> {
     @Query("Select c from Cuota c where c.estudiante_id = :id and c.estado_pago = 'pendiente'")
     List<Cuota> findByEstudiante_idPendiente(@Param("id") int id);
 
+    // numero de cuotas pagadas
+    @Query("SELECT COUNT(*) FROM Cuota c WHERE c.estado_pago = 'pagado' AND c.estudiante_id = :id_estudiante")
+    Integer findCuotasPagadas(@Param("id_estudiante") int id_estudiante);
+
+    // numero de cuotas que aun no se pagan
+    @Query("SELECT COUNT(*) FROM Cuota c WHERE c.estado_pago = 'pendiente' AND c.estudiante_id = :id")
+    Integer findCuotasPorPagar(@Param("id_estudiante") int id_estudiante);
+
+
+    // monto pagado
+    @Query("SELECT SUM(c.monto) FROM Cuota c WHERE c.estado_pago = 'pagado' AND c.estudiante_id = :id_estudiante")
+    Float findSaldoPagado(@Param("id_estudiante") int id_estudiante);
+
+    // monto total que aún queda por pagar
+    @Query("SELECT SUM(c.monto) FROM Cuota c WHERE c.estado_pago = 'pendiente' AND c.estudiante_id = :id_estudiante")
+    Float findSaldoPorPagar(@Param("id_estudiante") int id_estudiante);
+
+
+
+
 }

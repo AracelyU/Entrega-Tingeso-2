@@ -5,6 +5,7 @@ import com.tutorial.examservice.model.Student;
 import com.tutorial.examservice.repository.ExamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
@@ -21,6 +22,10 @@ public class ExamService {
 
     @Autowired
     ExamRepository examRepository;
+
+    @Autowired
+    RestTemplate restTemplate;
+
 
     // la función guardar es para traer a la carpeta src los archivos seleccionados
     public String guardar(MultipartFile file){
@@ -48,36 +53,35 @@ public class ExamService {
     }
 
     // leer el csv ingresado y guardarlo en BD
-    public String leerCsv(String direccion){
-        String texto = "";
-        BufferedReader bf = null;
-        //testRepository.deleteAll();
-        if(!direccion.toLowerCase().contains(".csv")){
-            return "No ingreso un archivo csv";
-        }
+    public void leerCsv(String filename){
+        String texto = ""; // para almacenar el contenido del texto
+        BufferedReader bf = null; // Objeto para leer
         try{
-            bf = new BufferedReader(new FileReader(direccion));
-            String temp = "";
-            String bfRead;
-            int count = 1;
-            while((bfRead = bf.readLine()) != null){
-                if (count == 1){
-                    count = 0;
+            bf = new BufferedReader(new FileReader(filename)); // abro el archivo csv para lectura
+            String temp = ""; // para acumular las líneas leidas
+            String bfRead; // para almacenar cada línea de archivo
+            int count = 1; // desde que fila va a leer (omite la primera línea del archivo csv que
+            // tiene los nombres de las variables)
+            while((bfRead = bf.readLine()) != null){ // mientras hayan lineas por leer
+                if (count == 1){ // si el contador es 1
+                    count = 0; // omite la primera fila del csv
                 }
-                else{
-                    guardarDataDB(bfRead.split(";")[0], bfRead.split(";")[1], bfRead.split(";")[2], direccion);
-                    temp = temp + "\n" + bfRead;
+                else{ // sino, significa que se están leyendo las otras líneas
+                    // guardo los datos de cada celda de la fila en la base de datos de examenes
+                    guardarDataDB(bfRead.split(";")[0], bfRead.split(";")[1], bfRead.split(";")[2], filename);
+
+                    temp = temp + "\n" + bfRead; // acumulo la linea leida
                 }
             }
             texto = temp;
-            return "Archivo leido exitosamente";
+            System.out.println("Archivo leido exitosamente");
         }catch(Exception e){
-            return "No se encontro el archivo";
+            System.err.println("No se encontro el archivo");
         }finally{
             if(bf != null){
                 try{
-                    bf.close();
-                }catch(IOException ignored){
+                    bf.close(); // me encargo que se cierre BufferedReader
+                }catch(IOException e){
 
                 }
             }
@@ -92,6 +96,8 @@ public class ExamService {
         newData.setFecha_examen(LocalDateTime.parse(fechaExamen));
         newData.setPuntaje_examen(Float.valueOf(puntajeObtenido));
         newData.setNombre_examen(direccion.replaceAll("\\.csv$", "")); // se quita la extensión del string
+
+        System.out.println("llego aqui");
         examRepository.save(newData);
     }
 
@@ -128,6 +134,40 @@ public class ExamService {
         }
     }
 
+    public Integer cuotasPagadas(int studentId) {
+        return restTemplate.getForObject("http://localhost:8080/cuota/cuotapagada/" + studentId, Integer.class);
+    }
+
+    public Integer cuotasPorPagar(int studentId){
+        return restTemplate.getForObject("http://localhost:8080/cuota/cuotaporpagar/" + studentId, Integer.class);
+    }
+
+    public Float saldoPorPagar(int studentId){
+        return restTemplate.getForObject("http://localhost:8080/cuota/saldoporpagar/" + studentId, Float.class);
+    }
+
+    public Float saldoPagado(int studentId){
+        return restTemplate.getForObject("http://localhost:8080/cuota/saldopagado/" + studentId, Float.class);
+    }
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
     /*
     // aplicar descuento a todas las cuotas de los estudiantes
     public void aplicarDescuentoPromedio(){
@@ -161,28 +201,9 @@ public class ExamService {
     }
 
 
-    // numero de cuotas pagadas
-    public Integer cuotasPagadasPorIdEstudiante(Long id_estudiante){
-        return cuotaRepository.findCuotasPagadas(id_estudiante);
-    }
 
-    // saldo que aún queda por pagar
-    public Float saldoPorPagar(Long id_estudiante){
-        if(cuotaRepository.findSaldoPorPagar(id_estudiante) != null){
-            return cuotaRepository.findSaldoPorPagar(id_estudiante);
-        }else{
-            return 0F;
-        }
-    }
 
-    // saldo pagado
-    public Float saldoPagado(Long id_estudiante){
-        if(cuotaRepository.findSaldoPagado(id_estudiante) != null){
-            return cuotaRepository.findSaldoPagado(id_estudiante);
-        }else{
-            return 0F;
-        }
-    }
+
 
     }
 

@@ -6,6 +6,7 @@ import CuotaCreateComponent from "./components/CuotaCreateComponent";
 import CuotaPayComponent from "./components/CuotaPayComponent"
 import CuotaListComponent from "./components/CuotaListComponent";
 import UpFileComponent from "./components/UpFileComponent"
+import ReportCreateComponent from "./components/ReportCreateComponent"
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
                   <Route path= "/mostrar-pago" element={<CuotaListComponent />} />
                   <Route path= "/pagar-pago" element={<CuotaPayComponent />} />
                   <Route path= "/cargar-archivo" element={<UpFileComponent />} />
+                  <Route path= "/cargar-reporte" element={<ReportCreateComponent />} />
 
               </Routes>
           </BrowserRouter>

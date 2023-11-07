@@ -14,11 +14,14 @@ public class ExamController {
     ExamService examService;
 
     @PostMapping
-    public ResponseEntity<String> cargarArchivo(@RequestPart("file") MultipartFile file) {
+    public ResponseEntity<String> cargarArchivo(@RequestParam("file") MultipartFile file) {
         examService.guardar(file);
-        examService.leerCsv(file.getName());
+        String filename = file.getOriginalFilename();
+        //examService.leerCsv(filename);
         return ResponseEntity.ok("Archivo cargado correctamente");
+
     }
+
 
 
 }

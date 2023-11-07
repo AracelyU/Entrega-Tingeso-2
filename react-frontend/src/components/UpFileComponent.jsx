@@ -1,84 +1,62 @@
-import React, { Component } from "react";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import swal from "sweetalert";
-import UpFileService from "../service/UpFileService";
-import "../style/css/EstiloCargarArchivo.css";
-import "../style/css/EstiloBotones.css";
+import React, { Component } from 'react';
+import UpFileService from '../service/UpFileService';
 
 class UpFileComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
             file: null,
+            message: '',
         };
     }
 
-    onFileChange = (event) => {
-        const file = event.target.files[0];
-        if (!file.name.toLowerCase().includes(".csv")) {
-            swal({
-                title: "Error",
-                text: "Solo se permiten archivos CSV",
-                icon: "error",
-            });
-            return;
-        }
-        this.setState({ file });
+    handleFileChange = (event) => {
+        this.setState({
+            file: event.target.files[0],
+        });
     };
 
-    onFileUpload = () => {
-        swal({
-            title: "¿Está seguro de que desea cargar el archivo de texto?",
-            text: "Tenga en cuenta que el archivo solo será cargado si su extensión es csv y si su formato es correcto.",
-            icon: "warning",
-            buttons: ["Cancelar", "Cargar"],
-            dangerMode: true,
-        }).then((respuesta) => {
-            if (respuesta) {
-                swal("Archivo cargado correctamente!", { icon: "success", timer: "3000" });
-                const formData = new FormData();
-                formData.append("file", this.state.file);
-                UpFileService.CargarArchivo(formData).then((res) => {});
-            } else {
-                swal({ text: "Archivo no cargado.", icon: "error" });
-            }
-        });
+    handleUpload = () => {
+        if (!this.state.file) {
+            this.setState({ message: 'Selecciona un archivo antes de subirlo.' });
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', this.state.file);
+
+        UpFileService.CargarArchivo(formData)
+            .then((response) => {
+                this.setState({ message: response.data });
+            })
+            .catch((error) => {
+                console.error('Error uploading Excel:', error);
+                this.setState({ message: 'Error al cargar el archivo Excel.' });
+            });
     };
 
     render() {
         return (
-            <div className="home">
+            <div>
+                <h2 className="titulo text-center">Cargar Archivo Excel</h2>
                 <br></br>
-                <a className="botonVolver" href="/">
-                    Volver Al Menú Principal
-                </a>
-                <h2><b>Cargar el archivo de datos</b></h2>
-                <hr></hr>
-                <br></br><br></br>
-
-                <div className="container">
-                    <Row className="mt-4">
-                        <Col col="12">
-                            <Form.Group className="mb-3" controlId="formFileLg">
-                                <Form.Control type="file" name="file" size="lg" onChange={this.onFileChange} />
-                            </Form.Group>
-                            <Button variant="primary" className="botonRegistro" onClick={this.onFileUpload}>
-                                Cargar el archivo a la Base de Datos</Button>
-                        </Col>
-                    </Row>
+                <div className='container_subida'>
+                    <div className="form-group">
+                        <label className='entrada titulo'>Selecciona un archivo Excel:</label>
+                        <br></br>
+                        <br></br>
+                        <input
+                            type="file"
+                            onChange={this.handleFileChange}
+                            accept=".csv"
+                        />
+                    </div>
+                    <br></br>
+                    <button className="btn btn-light ml-2 main-button2" onClick={this.handleUpload}>
+                        Subir Excel
+                    </button>
+                    {this.state.message && <p className="text-success">{this.state.message}</p>}
                 </div>
-
-                <div className="form1">
-                    <h5><b>Recuerde que el nombre del archivo debe ser "Data.csv"!</b></h5>
-                </div>
-
-                <hr></hr>
-
-                <Button className="botonVolver"> Aplicar Puntaje</Button>
-
             </div>
         );
     }

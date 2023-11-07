@@ -15,8 +15,6 @@ export default function Home(){
                 <h1>TopEducation Web</h1>
             </div>
 
-            <br></br><br></br>
-
             <a className="boton" href="/lista-estudiantes"> Listar Estudiantes</a>
             <br></br>
             <a className="boton" href="/crear-estudiante"> Crear Estudiante</a>
@@ -28,6 +26,8 @@ export default function Home(){
             <a className="boton" href="/pagar-pago"> Pagar Pago</a>
             <br></br>
             <a className="boton" href="/cargar-archivo"> Cargar Archivo</a>
+            <br></br>
+            <a className="boton" href="/cargar-reporte"> Generar Reporte</a>
 
 
 

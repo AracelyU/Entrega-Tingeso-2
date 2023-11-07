@@ -170,6 +170,44 @@ public class CuotaService {
         return "El pago se generó con éxito.";
     }
 
+    // numero de cuotas pagadas
+    public Integer cuotasPagadasPorIdEstudiante(int id_estudiante){
+        return cuotaRepository.findCuotasPagadas(id_estudiante);
+    }
+
+    // numero de cuotas por pagar
+    public Integer cuotasPorPagarPorIdEstudiante(int id_estudiante){
+        return cuotaRepository.findCuotasPorPagar(id_estudiante);
+    }
+
+    // saldo que aún queda por pagar
+    public Float saldoPorPagar(int id_estudiante){
+        if(cuotaRepository.findSaldoPorPagar(id_estudiante) != null){
+            return cuotaRepository.findSaldoPorPagar(id_estudiante);
+        }else{
+            return 0F;
+        }
+    }
+
+    // saldo pagado
+    public Float saldoPagado(int id_estudiante){
+        if(cuotaRepository.findSaldoPagado(id_estudiante) != null){
+            return cuotaRepository.findSaldoPagado(id_estudiante);
+        }else{
+            return 0F;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
 }
 
 

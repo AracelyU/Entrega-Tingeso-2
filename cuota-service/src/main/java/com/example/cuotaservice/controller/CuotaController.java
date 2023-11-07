@@ -80,6 +80,38 @@ public class CuotaController {
         return ResponseEntity.ok(cuota);
     }
 
+    // obtener cuotas pagadas
+    @GetMapping("/cuotapagada/{id}")
+    public ResponseEntity<Integer> cuotasPagadas(@PathVariable int id){
+        Integer nro_cuotas = cuotaService.cuotasPagadasPorIdEstudiante(id);
+        return ResponseEntity.ok(nro_cuotas);
+    }
+
+    // obtener cuotas por pagar
+    @GetMapping("/cuotaporpagar/{id}")
+    public ResponseEntity<Integer> cuotasPorPagar(@PathVariable int id){
+        Integer nro_cuotas = cuotaService.cuotasPorPagarPorIdEstudiante(id);
+        return ResponseEntity.ok(nro_cuotas);
+    }
+
+
+    // obtener saldo por pagar
+    @GetMapping("/saldoporpagar/{id}")
+    public ResponseEntity<Float> saldoPorPagar(@PathVariable int id){
+        Float saldo = cuotaService.saldoPorPagar(id);
+        return ResponseEntity.ok(saldo);
+    }
+
+    // obtener saldo pagado
+    @GetMapping("/saldopagado/{id}")
+    public ResponseEntity<Float> saldoPagado(@PathVariable int id){
+        Float saldo = cuotaService.saldoPagado(id);
+        return ResponseEntity.ok(saldo);
+    }
+
+
+
+
 
 
 
