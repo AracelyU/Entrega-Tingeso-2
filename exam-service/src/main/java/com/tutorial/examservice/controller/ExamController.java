@@ -2,10 +2,8 @@ package com.tutorial.examservice.controller;
 
 import com.tutorial.examservice.service.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -16,9 +14,10 @@ public class ExamController {
     ExamService examService;
 
     @PostMapping
-    public void guardarData(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> cargarArchivo(@RequestPart("file") MultipartFile file) {
         examService.guardar(file);
         examService.leerCsv(file.getName());
+        return ResponseEntity.ok("Archivo cargado correctamente");
     }
 
 
