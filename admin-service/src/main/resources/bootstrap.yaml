@@ -1,0 +1,15 @@
+
+spring:
+  application:
+    name: admin-service
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8081
+  datasource:
+    url: jdbc:mysql://localhost:3306/topedu
+    username: root
+    password: 2190
+  jpa:
+    hibernate:
+      ddl-auto: update
