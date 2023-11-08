@@ -5,7 +5,7 @@ const API_URL_FILE = "http://localhost:8080/examen/";
 class UpFileService{
 
     CargarArchivo(formData){
-            return axios.post(API_URL_FILE, formData);
+            return axios.post(API_URL_FILE + "cargar", formData);
     }
 
 

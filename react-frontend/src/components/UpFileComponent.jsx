@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import UpFileService from '../service/UpFileService';
+import "../style/css/EstiloBotones.css"
 
 class UpFileComponent extends Component {
     constructor(props) {
@@ -31,31 +32,38 @@ class UpFileComponent extends Component {
             })
             .catch((error) => {
                 console.error('Error uploading Excel:', error);
-                this.setState({ message: 'Error al cargar el archivo Excel.' });
+                this.setState({ message: 'Error al cargar el archivo csv.' });
             });
     };
 
     render() {
         return (
             <div>
-                <h2 className="titulo text-center">Cargar Archivo Excel</h2>
                 <br></br>
+                <a className="botonVolver" href="/"> Volver Al Menú Principal</a>
+                <h2 className="titulo text-center">Cargar Archivo Excel</h2>
+                <hr></hr>
                 <div className='container_subida'>
                     <div className="form-group">
-                        <label className='entrada titulo'>Selecciona un archivo Excel:</label>
+                        <h2 className='entrada titulo'>Selecciona un archivo .csv</h2>
                         <br></br>
                         <br></br>
                         <input
+                            className="centrar"
                             type="file"
                             onChange={this.handleFileChange}
                             accept=".csv"
                         />
                     </div>
                     <br></br>
-                    <button className="btn btn-light ml-2 main-button2" onClick={this.handleUpload}>
+                    <button className="btn ml-2 main-button2 centrarClick" onClick={this.handleUpload}>
                         Subir Excel
                     </button>
                     {this.state.message && <p className="text-success">{this.state.message}</p>}
+
+                    <br></br>
+                    <h2>Solo se puede aplicar descuentos mientras no se día de pagos</h2>
+                    <button className="btn ml-2 main-button2 centrarClick"> Aplicar Descuento</button>
                 </div>
             </div>
         );

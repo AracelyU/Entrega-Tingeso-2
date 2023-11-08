@@ -21,6 +21,6 @@ public class Exam {
     private String rut; // conecta con estudiante
     private String nombre_examen;
     private Float puntaje_examen;
-    private LocalDateTime fecha_examen;
+    private LocalDate fecha_examen;
 
 }

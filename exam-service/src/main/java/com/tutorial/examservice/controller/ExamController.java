@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 @RestController
@@ -16,6 +17,8 @@ public class ExamController {
     @Autowired
     ExamService examService;
 
+
+    // obtener todos los examenes
     @GetMapping
     public ResponseEntity<List<Exam>> obtenerExamenes(){
         List<Exam> examenes = examService.obtenerExamenes();
@@ -25,16 +28,21 @@ public class ExamController {
         return ResponseEntity.ok(examenes);
     }
 
-    @PostMapping("cargar")
-    public ResponseEntity<List<Exam>> cargarArchivo(@RequestParam("file") MultipartFile file) {
-        String ruta = examService.guardar(file);
+
+    // guarda un examen
+    @PostMapping()
+    public ResponseEntity<Exam> save(@RequestBody Exam examen) {
+        Exam examenNew = examService.guardarExamen(examen);
+        return ResponseEntity.ok(examenNew);
+    }
+
+
+    @PostMapping("/cargar")
+    public ResponseEntity<String> cargarArchivo(@RequestParam("file") MultipartFile file) {
+        examService.guardar(file);
         String filename = file.getOriginalFilename();
-        System.out.println(ruta);
-        List<Exam> examenes = examService.leerCsv(filename);
-        if(examenes == null){
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(examenes);
+        examService.leerContenido(filename);
+        return ResponseEntity.ok(filename);
     }
 
 

@@ -12,8 +12,11 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -25,6 +28,15 @@ public class ExamService {
     @Autowired
     RestTemplate restTemplate;
 
+    // guardar examen
+    public Exam guardarExamen(Exam e){
+        return examRepository.save(e);
+    }
+
+
+
+
+    private final String RUTA_ARCHIVOS = "exam-service";
 
     // la función guardar es para traer a la carpeta src los archivos seleccionados
     public String guardar(MultipartFile file){
@@ -54,109 +66,94 @@ public class ExamService {
         }
     }
 
-
-    public String guardar2(MultipartFile file) {
-        String filename = file.getOriginalFilename();
-
-        if (!filename.toLowerCase().endsWith(".csv")) {
-            System.out.println("No ingresó un archivo CSV");
-            return "No ingresó un archivo CSV";
-        }
-
-        try {
-            // Obtén el contenido del archivo
-            InputStream inputStream = file.getInputStream();
-
-            // Crea un archivo temporal
-            File tempFile = File.createTempFile("temp_", ".csv");
-            tempFile.deleteOnExit();  // El archivo temporal se eliminará al cerrar la aplicación
-
-            // Copia el contenido del archivo MultipartFile al archivo temporal
-            try (FileOutputStream outputStream = new FileOutputStream(tempFile)) {
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-            }
-
-            // Obtiene la ruta del archivo temporal
-            String rutaArchivo = tempFile.getAbsolutePath();
-
-            // Realiza cualquier procesamiento adicional con la ruta del archivo
-
-            System.out.println("Archivo guardado con éxito en: " + rutaArchivo);
-            return rutaArchivo;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    // guardar en BD lo obtenido del csv
+    public Exam guardarDataDB(String rut, String fechaExamen, String puntajeObtenido, String direccion) {
+        Exam newData = new Exam();
+        newData.setRut(rut);
+        newData.setFecha_examen(LocalDate.parse(fechaExamen));
+        newData.setPuntaje_examen(Float.valueOf(puntajeObtenido));
+        newData.setNombre_examen(direccion.replaceAll("\\.csv$", "")); // se quita la extensión del string
+        return examRepository.save(newData);
     }
 
 
-    // leer el csv ingresado y guardarlo en BD
-    public List<Exam> leerCsv(String direccion) {
-        List<Exam> examenes = new ArrayList<>();
-        BufferedReader bf = null;
-
-        if (!direccion.toLowerCase().endsWith(".csv")) {
-            System.out.println("No es un archivo CSV");
-            return examenes;
-        }
-
+    public void leerContenido(String filename){
+        BufferedReader br = null;
+        String line = "";
+        //Se define separador ","
+        String cvsSplitBy = ";";
         try {
-            bf = new BufferedReader(new FileReader(direccion));
-            String bfRead;
-            int count = 0;
+            br = new BufferedReader(new FileReader(filename));
+            while ((line = br.readLine()) != null) {
+                String[] datos = line.split(cvsSplitBy);
+                //Imprime datos.
 
-            while ((bfRead = bf.readLine()) != null) {
-                if (count == 0) {
-                    count = 1; // Saltar la primera línea de encabezados
-                } else {
-                    String[] datos = bfRead.split(",");
-                    if (datos.length == 3) {
-                        String rut = datos[0].trim();
-                        String fechaExamen = datos[1].trim();
-                        String puntajeObtenido = datos[2].trim();
+                if(!(datos[0] + ";" + datos[1] + ";" + datos[2]).equals("rut;fecha_examen;puntaje_obtenido")){
+                    System.out.println(datos[0] + ";" + datos[1] + ";" + datos[2]);
+                    guardarDataDB(datos[0], datos[1], datos[2], filename);
 
-                        Exam examen = guardarDataDB(rut, fechaExamen, puntajeObtenido, direccion);
-                        examenes.add(examen);
-
-                        System.out.println("Se leyó una línea del archivo CSV");
-                    }
                 }
             }
 
-            System.out.println("Archivo leído exitosamente");
-        } catch (Exception e) {
-            System.out.println("No se pudo encontrar o leer el archivo");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         } finally {
-            if (bf != null) {
+            if (br != null) {
                 try {
-                    bf.close();
+                    br.close();
                 } catch (IOException e) {
-                    System.out.println("Ocurrió un error al cerrar el archivo");
+                    e.printStackTrace();
                 }
             }
         }
 
+    }
+
+    public List<Exam> readCsv(String filename){
+        List<Exam> examenes = new ArrayList<>();
+        String texto = ""; // para almacenar el contenido del texto
+        BufferedReader bf = null; // Objeto para leer
+        try{
+            bf = new BufferedReader(new FileReader(filename)); // abro el archivo csv para lectura
+            String temp = ""; // para acumular las líneas leidas
+            String bfRead; // para almacenar cada línea de archivo
+            int count = 1; // desde que fila va a leer (omite la primera línea del archivo csv que
+            // tiene los nombres de las variables)
+            while((bfRead = bf.readLine()) != null){ // mientras hayan lineas por leer
+                if (count == 1){ // si el contador es 1
+                    count = 0; // omite la primera fila del csv
+                }
+                else{ // sino, significa que se están leyendo las otras líneas
+                    // guardo los datos de cada celda de la fila en la base de datos de examenes
+                    Exam e = guardarDataDB(bfRead.split(";")[0],
+                            bfRead.split(";")[1],
+                            bfRead.split(";")[2],
+                            filename);
+                    examenes.add(e);
+                    temp = temp + "\n" + bfRead; // acumulo la linea leida
+                }
+            }
+            texto = temp;
+            System.out.println("Archivo leido exitosamente");
+            return examenes;
+        }catch(Exception e){
+            System.err.println("No se encontro el archivo");
+        }finally{
+            if(bf != null){
+                try{
+                    bf.close(); // me encargo que se cierre BufferedReader
+                }catch(IOException e){
+
+                }
+            }
+        }
         return examenes;
     }
 
 
 
-
-    // guardar en BD lo obtenido del csv
-    public Exam guardarDataDB(String rut, String fechaExamen, String puntajeObtenido, String direccion){
-        Exam newData = new Exam();
-        newData.setRut(rut);
-        newData.setFecha_examen(LocalDateTime.parse(fechaExamen));
-        newData.setPuntaje_examen(Float.valueOf(puntajeObtenido));
-        newData.setNombre_examen(direccion.replaceAll("\\.csv$", "")); // se quita la extensión del string
-
-        System.out.println("llego aqui");
-        examRepository.save(newData);
-        return newData;
-    }
 
     // indica si la base de datos está vacia
     public List<Exam> obtenerExamenes(){

@@ -24,7 +24,6 @@
     border:none;
 }
 
-
 .botonVolver{
     border: 1px solid #2e518b; /*anchura, estilo y color borde*/
     background-color: #2e518b; /*color botón*/
@@ -71,6 +70,44 @@
 }
 
 .botonRegistro:hover {
+    background-color: #4a90e2; /* Cambiar el color de fondo cuando el ratón pasa sobre el botón */
+    border:none;
+}
+
+
+.centrar{
+
+    color: #ffffff; /*color texto*/
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase; /*capitalización texto*/
+    font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+    font-size: 18px;
+    padding: 10px 70px;
+    width: 500px;
+    display: block;
+    margin: 0 auto;
+
+}
+
+.centrarClick{
+    border: 1px solid #2e518b; /*anchura, estilo y color borde*/
+    background-color: #2e518b; /*color botón*/
+    color: #ffffff; /*color texto*/
+    border-radius: 50px; /*bordes redondos*/
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase; /*capitalización texto*/
+    font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+    font-size: 18px;
+    padding: 10px 70px;
+    width: 500px;
+    display: block;
+    margin: 0 auto;
+
+}
+
+.centrarClick:hover{
     background-color: #4a90e2; /* Cambiar el color de fondo cuando el ratón pasa sobre el botón */
     border:none;
 }
