@@ -34,11 +34,9 @@ public class StudentService {
     public Student obtenerEstudiantePorRut(String rut){ return studentRepository.findByRut(rut); }
 
 
-
-
     // obtener al estudiante por id
     public Student obtenerEstudiantePorId(int id) {
-        return studentRepository.findById(id).orElse(null);
+        return studentRepository.findById(id);
     }
 
     // obtener al estudiante por su rut

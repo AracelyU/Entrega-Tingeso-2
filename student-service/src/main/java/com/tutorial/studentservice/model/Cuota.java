@@ -11,17 +11,12 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Cuota {
 
-    private int id_cuota;
-
+    private int id;
     private Integer num_cuota;
-
     private Float monto;
-
     private LocalDate fecha_vencimiento; // fecha en que vence la cuota
-
     private LocalDate fecha_pago; // fecha en que se pago
-
     private String estado_pago; // pagado o pendiente
-
-    private Long estudiantet_id; // conecta con estudiante
+    private String tipo_pago;  // contado o cuota
+    private int estudiante_id; // conecta con estudiante
 }

@@ -1,0 +1,3 @@
+insert into cuotas (num_cuota, monto, fecha_vencimiento, fecha_pago, estado_pago, tipo_pago, estudiante_id) values (1, 100000, '2023-11-10', null, 'pendiente', 'cuota', 1);
+insert into cuotas (num_cuota, monto, fecha_vencimiento, fecha_pago, estado_pago, tipo_pago, estudiante_id) values (2, 100000, '2023-12-10', null, 'pendiente', 'cuota', 1);
+insert into cuotas (num_cuota, monto, fecha_vencimiento, fecha_pago, estado_pago, tipo_pago, estudiante_id) values (3, 100000, '2023-01-10', null, 'pendiente', 'cuota', 1);

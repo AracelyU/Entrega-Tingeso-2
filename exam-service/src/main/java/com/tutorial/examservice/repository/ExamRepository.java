@@ -10,11 +10,11 @@ import org.springframework.stereotype.Repository;
 public interface ExamRepository extends JpaRepository<Exam, Integer> {
 
     // obtener el promedio de los ultimos examenes de un estudiante
-    @Query(value = "SELECT avg(e.puntaje_obtenido) FROM examenes e WHERE e.rut = :rut AND e.fecha_examen = (SELECT MAX(e.fecha_examen) FROM examenes e WHERE e.rut = :rut)", nativeQuery = true)
+    @Query(value = "SELECT avg(e.puntaje_examen) FROM Exam e WHERE e.rut = :rut AND e.fecha_examen = (SELECT MAX(e.fecha_examen) FROM Exam e WHERE e.rut = :rut)")
     Float findPuntajePromedio(@Param("rut") String rut);
 
     // obtener numero de pruebas que dio un estudiante durante todo el preuniversitario
-    @Query(value = "SELECT COUNT(*) FROM examenes e WHERE e.rut = :rut", nativeQuery = true)
+    @Query("SELECT COUNT(*) FROM Exam e WHERE e.rut = :rut")
     Integer findNumeroPruebas(@Param("rut") String rut);
 
 

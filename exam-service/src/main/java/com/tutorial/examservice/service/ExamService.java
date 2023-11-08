@@ -4,7 +4,11 @@ import com.tutorial.examservice.entity.Exam;
 import com.tutorial.examservice.model.Student;
 import com.tutorial.examservice.repository.ExamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,11 +38,7 @@ public class ExamService {
     }
 
 
-
-
-    private final String RUTA_ARCHIVOS = "exam-service";
-
-    // la función guardar es para traer a la carpeta src los archivos seleccionados
+    // la función guardar csv
     public String guardar(MultipartFile file){
         String filename = file.getOriginalFilename();
         assert filename != null;
@@ -76,7 +76,7 @@ public class ExamService {
         return examRepository.save(newData);
     }
 
-
+    // lee el csv
     public void leerContenido(String filename){
         BufferedReader br = null;
         String line = "";
@@ -111,45 +111,54 @@ public class ExamService {
 
     }
 
-    public List<Exam> readCsv(String filename){
-        List<Exam> examenes = new ArrayList<>();
-        String texto = ""; // para almacenar el contenido del texto
-        BufferedReader bf = null; // Objeto para leer
-        try{
-            bf = new BufferedReader(new FileReader(filename)); // abro el archivo csv para lectura
-            String temp = ""; // para acumular las líneas leidas
-            String bfRead; // para almacenar cada línea de archivo
-            int count = 1; // desde que fila va a leer (omite la primera línea del archivo csv que
-            // tiene los nombres de las variables)
-            while((bfRead = bf.readLine()) != null){ // mientras hayan lineas por leer
-                if (count == 1){ // si el contador es 1
-                    count = 0; // omite la primera fila del csv
-                }
-                else{ // sino, significa que se están leyendo las otras líneas
-                    // guardo los datos de cada celda de la fila en la base de datos de examenes
-                    Exam e = guardarDataDB(bfRead.split(";")[0],
-                            bfRead.split(";")[1],
-                            bfRead.split(";")[2],
-                            filename);
-                    examenes.add(e);
-                    temp = temp + "\n" + bfRead; // acumulo la linea leida
-                }
-            }
-            texto = temp;
-            System.out.println("Archivo leido exitosamente");
-            return examenes;
-        }catch(Exception e){
-            System.err.println("No se encontro el archivo");
-        }finally{
-            if(bf != null){
-                try{
-                    bf.close(); // me encargo que se cierre BufferedReader
-                }catch(IOException e){
-
-                }
-            }
+    // obtener estudiante según su id
+    @GetMapping("/student/{id}")
+    public ResponseEntity<Student> getStudentById(@PathVariable("id") int id) {
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Student> response = restTemplate.getForEntity("http://localhost:8080/student/" + id, Student.class);
+        if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
+            return ResponseEntity.noContent().build();
         }
-        return examenes;
+        return response;
+    }
+
+
+    // obtener monto por pagar
+    @GetMapping("/montoporpagar/{id}")
+    public ResponseEntity<Float> getMontoPorPagar(@PathVariable("id") int id) {
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Float> response = restTemplate.getForEntity("http://localhost:8080/saldoporpagar/" + id, Float.class);
+        if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
+            return ResponseEntity.noContent().build();
+        }
+        return response;
+    }
+
+    // obtener monto pagado
+    @GetMapping("/montoporpagar/{id}")
+    public ResponseEntity<Float> getMontoPagado(@PathVariable("id") int id) {
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Float> response = restTemplate.getForEntity("http://localhost:8080/saldopagado/" + id, Float.class);
+        if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
+            return ResponseEntity.noContent().build();
+        }
+        return response;
+    }
+
+    // obtener número de cuotas
+    @GetMapping("nrocuotas/{id}")
+    public ResponseEntity<Integer> getNumeroCuotas(@PathVariable("id") int id){
+        ResponseEntity<Integer> pagadas = restTemplate.getForEntity("http://localhost:8080/cuotapagada/" + id, Integer.class);
+        ResponseEntity<Integer> pendientes = restTemplate.getForEntity("http://localhost:8080/cuotaporpagar/" + id, Integer.class);
+        Integer nro_cuotas = pagadas.getBody() + pendientes.getBody();
+        return ResponseEntity.ok(nro_cuotas);
+    }
+
+    // obtener número de cuotas pagadas
+    @GetMapping("nrocuotaspagadas/{id}")
+    public ResponseEntity<Integer> getNumeroCuotasPagadas(@PathVariable("id") int id){
+        ResponseEntity<Integer> pendientes = restTemplate.getForEntity("http://localhost:8080/cuotaporpagar/" + id, Integer.class);
+        return ResponseEntity.ok(pendientes.getBody());
     }
 
 
@@ -159,6 +168,8 @@ public class ExamService {
     public List<Exam> obtenerExamenes(){
         return examRepository.findAll();
     }
+
+
 
     // aplica promedio a los ultimos examenes de un estudiante
     public Float obtenerPromedio(String rut){

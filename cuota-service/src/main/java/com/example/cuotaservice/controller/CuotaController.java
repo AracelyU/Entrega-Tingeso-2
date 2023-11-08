@@ -54,6 +54,9 @@ public class CuotaController {
     public ResponseEntity<Student> getStudentById(@PathVariable("id") int id) {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Student> response = restTemplate.getForEntity("http://localhost:8080/student/" + id, Student.class);
+        if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
+            return ResponseEntity.noContent().build();
+        }
         return response;
     }
 
