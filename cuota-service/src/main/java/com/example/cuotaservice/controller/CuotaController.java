@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -112,6 +113,50 @@ public class CuotaController {
         return ResponseEntity.ok(saldo);
     }
 
+    // obtener tipo de pago de la cuota
+    @GetMapping("/tipoPago/{id}")
+    public ResponseEntity<String> tipoPago(@PathVariable("id") int id){
+        String tipo = cuotaService.tipoPago(id);
+        if(tipo.equals("")){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(tipo);
+    }
+
+    // numero de cuotas atrasadas
+    @GetMapping("/nroAtrasos/{id}")
+    public ResponseEntity<Integer> nroAtrasos(@PathVariable("id") int id){
+        Integer nro_cuotas = cuotaService.numeroCuotasAtrasadas(id);
+        return ResponseEntity.ok(nro_cuotas);
+    }
+
+    // fecha ultimo pago
+    @GetMapping("/ultimoPago/{id}")
+    public ResponseEntity<LocalDateTime> ultimoPago(@PathVariable("id") int id){
+        LocalDateTime fecha = cuotaService.ultimoPago(id);
+        if(fecha != null){
+            return ResponseEntity.ok(fecha);
+        }
+        return ResponseEntity.noContent().build();
+    }
+
+
+    // aplicar descuento
+    @GetMapping("/descuento")
+    public ResponseEntity<String> descuento(){
+        cuotaService.aplicarDescuentoPromedio();
+        return ResponseEntity.ok("Aplicado descuento");
+    }
+
+    // aplicar intereses por atraso de cuotas
+    @GetMapping("/interes")
+    public ResponseEntity<String> interes(){
+        List<Student> estudiantes = cuotaService.obtenerEstudiantes();
+        for(Student s : estudiantes){
+            cuotaService.aplicarInteresAtrasoCuotas(s.getId());
+        }
+        return ResponseEntity.ok("Aplicado interes");
+    }
 
 
 

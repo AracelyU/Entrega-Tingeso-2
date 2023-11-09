@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -19,10 +20,11 @@ public class Cuota {   // es una cuota individual
     private int id;
     private Integer num_cuota;
     private Float monto;
-    private LocalDate fecha_vencimiento; // fecha en que vence la cuota
-    private LocalDate fecha_pago; // fecha en que se pago
+    private LocalDateTime fecha_vencimiento; // fecha en que vence la cuota
+    private LocalDateTime fecha_pago; // fecha en que se pago
     private String estado_pago; // pagado o pendiente
     private String tipo_pago;  // contado o cuota
+    private Float saldo_devuelto;
     private int estudiante_id; // conecta con estudiante
 
 }

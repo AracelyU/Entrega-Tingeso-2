@@ -92,7 +92,7 @@ function CuotaCreateComponent(){
 
         }).then((result) => {
 
-
+            /* VERIFICAR ESTA FUNCIÓN
             // Verifica si hay pago pendiente o si no hay pago existe antes de crear el pago.
             if (checkPagoExistence(input.id_estudiante)) {
                 Swal.fire({
@@ -102,6 +102,8 @@ function CuotaCreateComponent(){
                 });
                 return;
             }
+
+             */
 
 
             // verifica la cantidad de cuotas según el tipo_colegio del estudiante

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -40,7 +41,9 @@ public interface CuotaRepository extends JpaRepository<Cuota, Integer> {
     @Query("SELECT SUM(c.monto) FROM Cuota c WHERE c.estado_pago = 'pendiente' AND c.estudiante_id = :id_estudiante")
     Float findSaldoPorPagar(@Param("id_estudiante") int id_estudiante);
 
-
+    // obtener cuotas pagas en orden descendente
+    @Query("SELECT c FROM Cuota c WHERE c.estudiante_id = :id_estudiante AND c.estado_pago = 'pagado' ORDER BY c.fecha_pago DESC ")
+    List<Cuota> findUltimoPago(@Param("id_estudiante") int id_estudiante);
 
 
 }

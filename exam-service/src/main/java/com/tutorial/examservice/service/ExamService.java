@@ -1,8 +1,10 @@
 package com.tutorial.examservice.service;
 
 import com.tutorial.examservice.entity.Exam;
+import com.tutorial.examservice.model.Cuota;
 import com.tutorial.examservice.model.Student;
 import com.tutorial.examservice.repository.ExamRepository;
+import org.hibernate.validator.constraints.ParameterScriptAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -87,7 +89,6 @@ public class ExamService {
             while ((line = br.readLine()) != null) {
                 String[] datos = line.split(cvsSplitBy);
                 //Imprime datos.
-
                 if(!(datos[0] + ";" + datos[1] + ";" + datos[2]).equals("rut;fecha_examen;puntaje_obtenido")){
                     System.out.println(datos[0] + ";" + datos[1] + ";" + datos[2]);
                     guardarDataDB(datos[0], datos[1], datos[2], filename);
@@ -112,63 +113,74 @@ public class ExamService {
     }
 
     // obtener estudiante según su id
-    @GetMapping("/student/{id}")
-    public ResponseEntity<Student> getStudentById(@PathVariable("id") int id) {
+    public Student getStudentById(@PathVariable("id") int id) {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Student> response = restTemplate.getForEntity("http://localhost:8080/student/" + id, Student.class);
-        if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
-            return ResponseEntity.noContent().build();
-        }
-        return response;
+        return response.getBody();
     }
 
 
     // obtener monto por pagar
-    @GetMapping("/montoporpagar/{id}")
-    public ResponseEntity<Float> getMontoPorPagar(@PathVariable("id") int id) {
+    public Float getMontoPorPagar(@PathVariable("id") int id) {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Float> response = restTemplate.getForEntity("http://localhost:8080/saldoporpagar/" + id, Float.class);
+        ResponseEntity<Float> response = restTemplate.getForEntity("http://localhost:8080/cuota/saldoporpagar/" + id, Float.class);
         if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
-            return ResponseEntity.noContent().build();
+            return 0F;
         }
-        return response;
+        return response.getBody();
     }
 
     // obtener monto pagado
-    @GetMapping("/montoporpagar/{id}")
-    public ResponseEntity<Float> getMontoPagado(@PathVariable("id") int id) {
+    public Float getMontoPagado(@PathVariable("id") int id) {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Float> response = restTemplate.getForEntity("http://localhost:8080/saldopagado/" + id, Float.class);
+        ResponseEntity<Float> response = restTemplate.getForEntity("http://localhost:8080/cuota/saldopagado/" + id, Float.class);
         if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
-            return ResponseEntity.noContent().build();
+            return 0F;
         }
-        return response;
+        return response.getBody();
     }
 
     // obtener número de cuotas
-    @GetMapping("nrocuotas/{id}")
-    public ResponseEntity<Integer> getNumeroCuotas(@PathVariable("id") int id){
-        ResponseEntity<Integer> pagadas = restTemplate.getForEntity("http://localhost:8080/cuotapagada/" + id, Integer.class);
-        ResponseEntity<Integer> pendientes = restTemplate.getForEntity("http://localhost:8080/cuotaporpagar/" + id, Integer.class);
-        Integer nro_cuotas = pagadas.getBody() + pendientes.getBody();
-        return ResponseEntity.ok(nro_cuotas);
+    public Integer getNumeroCuotasPagadas(@PathVariable("id") int id){
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Integer> pagadas = restTemplate.getForEntity("http://localhost:8080/cuota/cuotapagada/" + id, Integer.class);
+        return pagadas.getBody();
     }
 
     // obtener número de cuotas pagadas
-    @GetMapping("nrocuotaspagadas/{id}")
-    public ResponseEntity<Integer> getNumeroCuotasPagadas(@PathVariable("id") int id){
-        ResponseEntity<Integer> pendientes = restTemplate.getForEntity("http://localhost:8080/cuotaporpagar/" + id, Integer.class);
-        return ResponseEntity.ok(pendientes.getBody());
+    public Integer getNumeroCuotasPorPagar(@PathVariable("id") int id){
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Integer> pendientes = restTemplate.getForEntity("http://localhost:8080/cuota/cuotaporpagar/" + id, Integer.class);
+        return pendientes.getBody();
     }
 
+    // obtener tipo de pago
+    public String getTipoPago(@PathVariable("id") int id){
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> tipo = restTemplate.getForEntity("http://localhost:8080/cuota/tipoPago/" + id, String.class);
+        return tipo.getBody();
+    }
 
+    // obtener numero de cuotas atrasadas
+    public Integer getNumeroCuotasAtrasadas(@PathVariable("id") int id){
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Integer> nro_cuotas_atrasadas = restTemplate.getForEntity("http://localhost:8080/cuota/nroAtrasos/" + id, Integer.class);
+        return nro_cuotas_atrasadas.getBody();
+
+    }
+
+    // obtener el ultimo pago
+    public LocalDateTime getUltimoPago(@PathVariable("id") int id){
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<LocalDateTime> fecha = restTemplate.getForEntity("http://localhost:8080/cuota/ultimoPago/" + id, LocalDateTime.class);
+        return fecha.getBody();
+    }
 
 
     // indica si la base de datos está vacia
     public List<Exam> obtenerExamenes(){
         return examRepository.findAll();
     }
-
 
 
     // aplica promedio a los ultimos examenes de un estudiante
@@ -186,34 +198,21 @@ public class ExamService {
         return examRepository.findNumeroPruebas(rut);
     }
 
-    // descuento por promedio de los ultimos examenes
-    public Float descuentoPuntajePromedio(Float puntaje){
-        if(puntaje < 850){
-            return 0F;
-        }else if (puntaje < 899){
-            return 0.02F;
-        }else if (puntaje < 949){
-            return 0.05F;
-        }else{
-            return 0.1F;
-        }
+
+    // aplicar descuento a la base de datos
+    public ResponseEntity<String> aplicarDescuentoPromedio(){
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:8080/cuota/descuento", String.class);
+        return response;
     }
 
-    public Integer cuotasPagadas(int studentId) {
-        return restTemplate.getForObject("http://localhost:8080/cuota/cuotapagada/" + studentId, Integer.class);
+    // aplicar intereses por atrado de cuotas
+    public ResponseEntity<String> aplicarInteresAtrasoCuotas(){
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:8080/cuota/interes", String.class);
+        return response;
     }
 
-    public Integer cuotasPorPagar(int studentId){
-        return restTemplate.getForObject("http://localhost:8080/cuota/cuotaporpagar/" + studentId, Integer.class);
-    }
-
-    public Float saldoPorPagar(int studentId){
-        return restTemplate.getForObject("http://localhost:8080/cuota/saldoporpagar/" + studentId, Float.class);
-    }
-
-    public Float saldoPagado(int studentId){
-        return restTemplate.getForObject("http://localhost:8080/cuota/saldopagado/" + studentId, Float.class);
-    }
 
 
 
