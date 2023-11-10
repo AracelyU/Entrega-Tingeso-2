@@ -3,18 +3,16 @@ package com.example.cuotaservice.service;
 import com.example.cuotaservice.entity.Cuota;
 import com.example.cuotaservice.model.Student;
 import com.example.cuotaservice.repository.CuotaRepository;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -38,7 +36,6 @@ public class CuotaService {
 
     // obtener estudiante por su id
     public Student obtenerEstudiantePorId(int id) {
-        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Student> response = restTemplate.getForEntity("http://localhost:8080/student/" + id, Student.class);
         return response.getBody();
     }
@@ -120,57 +117,6 @@ public class CuotaService {
         return c;
     }
 
-
-    // verifica si se cumplen las condiciones para generar un pago MEJOR HACERLO EN FRONTEND
-    public String verificarGuardarPago(int id_estudiante, int numeroCuotas, String tipoPago){
-        Student s = obtenerEstudiantePorId(id_estudiante);
-
-        if(s == null){
-            return "el id del estudiante ingresado no existe.";
-        }
-
-        int dia_actual = LocalDateTime.now().getDayOfMonth();
-        if(dia_actual >= 5 && dia_actual <= 10){
-            return "No se pueden generar pagos en la fecha de pago";
-        }
-
-        if(s.getPago() != 0){
-            return "Este estudiante ya tiene un pago registrado.";
-        }
-
-        if(numeroCuotas <= 0){
-            return "El número de cuotas debe de ser positivo.";
-        }
-
-        if(tipoPago.equals("contado") && numeroCuotas != 1){
-            return "El pago al contado no deben de hacer más de 1 cuota.";
-        }
-
-        switch (s.getTipo_colegio()){
-            case "municipal":
-                if(numeroCuotas > 10){
-                    return "Para tipo de escuela municipal se ingreso más de 10 cuotas.";
-                }
-                break;
-
-            case "subvencionado":
-                if(numeroCuotas > 7){
-                    return "Para tipo de escuela subvencionado se ingreso más de 7 cuotas.";
-                }
-                break;
-
-            case "privado":
-                if(numeroCuotas > 4){
-                    return "Para tipo de escuela privado se ingreso más de 4 cuotas.";
-                }
-                break;
-
-            default:
-                return "Error en tipo de escuela.";
-        }
-
-        return "El pago se generó con éxito.";
-    }
 
     // numero de cuotas pagadas
     public Integer cuotasPagadasPorIdEstudiante(int id_estudiante){
@@ -279,17 +225,25 @@ public class CuotaService {
 
 
     // obtener estudiantes
-    public List<Student> obtenerEstudiantes(){
+    public List<Student> obtenerEstudiantes() {
         RestTemplate restTemplate = new RestTemplate();
-        List<Student> estudiantes = restTemplate.getForObject("http://localhost:8080/student/", List.class);
-        return estudiantes;
+        ResponseEntity<Student[]> response = restTemplate.getForEntity("http://localhost:8080/student", Student[].class);
+        if (response.getStatusCode().is2xxSuccessful()) {
+            return Arrays.asList(response.getBody());
+        } else {
+            throw new RuntimeException(response.getBody().toString());
+        }
     }
 
     // obtener promedio
     public Float obtenerPromedio(String rut){
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Float> promedio = restTemplate.getForEntity("http://localhost:8080/examen/promedio/" + rut, Float.class);
-        return promedio.getBody();
+        ResponseEntity<Float> response = restTemplate.getForEntity("http://localhost:8080/examen/promedio/" + rut, Float.class);
+        if (response.getStatusCode().is2xxSuccessful()) {
+            return response.getBody();
+        } else {
+            throw new RuntimeException(response.getBody().toString());
+        }
     }
 
     // descuento por promedio de los ultimos examenes
@@ -308,13 +262,12 @@ public class CuotaService {
     // aplicar descuento a todas las cuotas de los estudiantes
     public void aplicarDescuentoPromedio(){
         List<Student> estudiantes = obtenerEstudiantes();
-        for(Student s : estudiantes){
+        for(int i=0; i < estudiantes.size(); i++){
+            Student s = estudiantes.get(i);
             List<Cuota> cuotas = obtenerCuotasPendientesPorEstudiante_id(s.getId());
             if(cuotas != null){ // esto si el estudiante tiene cuotas
-
                 // calcular promedio
                 Float promedio = obtenerPromedio(s.getRut());
-
                 // si el estudiante tiene pago al contado aún no pagado se le añade lo obtenido al monto devuelto
                 if (cuotas.get(0).getTipo_pago().equals("contado") && cuotas.get(0).getEstado_pago().equals("pendiente")) {
                     Cuota c_contado = cuotas.get(0);

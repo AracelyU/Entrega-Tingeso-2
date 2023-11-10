@@ -136,17 +136,18 @@ public class ExamController {
 
 
     // aplicar descuento promedio
-    @GetMapping("/descuentoPromedio")
+    @PutMapping("/descuentoPromedio")
     public ResponseEntity<String> aplicarDescuento(){
-        ResponseEntity<String> response = examService.aplicarDescuentoPromedio();
-        return response;
+        System.out.println("ESTOY EN EL CONTROLADOR DE EXAM");
+        examService.aplicarDescuentoPromedio();
+        return ResponseEntity.ok("Se ha aplicado promedio");
     }
 
     // aplicar intereses por atraso de cuotas
-    @GetMapping("/interesAtraso")
+    @PutMapping("/interesAtraso")
     public ResponseEntity<String> aplicarInteres(){
-        ResponseEntity<String> response = examService.aplicarInteresAtrasoCuotas();
-        return response;
+        examService.aplicarInteresAtrasoCuotas();
+        return ResponseEntity.ok("Se ha aplicado interes");
     }
 
 

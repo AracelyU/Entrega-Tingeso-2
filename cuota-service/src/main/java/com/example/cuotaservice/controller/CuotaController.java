@@ -30,6 +30,23 @@ public class CuotaController {
         return ResponseEntity.ok(cuotas);
     }
 
+    // obtener el promedio
+    @GetMapping("promedio/{rut}")
+    public ResponseEntity<Float> promedio(@PathVariable("rut") String rut){
+        Float promedio = cuotaService.obtenerPromedio(rut);
+        return ResponseEntity.ok(promedio);
+    }
+
+    // probar obtener estudiante
+    @GetMapping("/estudiantes")
+    public ResponseEntity<List<Student>> getAllStudent(){
+        List<Student> estudiantes = cuotaService.obtenerEstudiantes();
+        if(estudiantes == null){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(estudiantes);
+    }
+
     // obtener cuotas por estudiante
     @GetMapping("/bystudent/{studentId}")
     public ResponseEntity<List<Cuota>> getByStudentId(@PathVariable("studentId") int studentId) {
@@ -64,14 +81,6 @@ public class CuotaController {
     // generar pago
     @PostMapping("/generatepago")
     public ResponseEntity<GenerarCuota> createdPayment(@RequestBody GenerarCuota generarCuota){
-        //String mensaje = cuotaService.verificarGuardarPago(generarCuota.getId_estudiante(), generarCuota.getNum_cuotas(), generarCuota.getTipo_pago());
-
-        //System.out.println(mensaje);
-        //if (!mensaje.equals("El pago se generó con éxito.")) {
-            // Devuelve una respuesta de error con un código de estado 400 Bad Request
-            //return ResponseEntity.noContent().build();
-        //}
-
         // generar las cuotas
         cuotaService.guardarPago(generarCuota.getId_estudiante(), generarCuota.getNum_cuotas(), generarCuota.getTipo_pago());
         return ResponseEntity.ok(generarCuota);
@@ -142,14 +151,15 @@ public class CuotaController {
 
 
     // aplicar descuento
-    @GetMapping("/descuento")
+    @PutMapping("/descuento")
     public ResponseEntity<String> descuento(){
+        System.out.println("ESTOY EN EL CONTROLADOR DE CUOTA");
         cuotaService.aplicarDescuentoPromedio();
-        return ResponseEntity.ok("Aplicado descuento");
+        return ResponseEntity.ok("se ha aplicado promedio");
     }
 
     // aplicar intereses por atraso de cuotas
-    @GetMapping("/interes")
+    @PutMapping("/interes")
     public ResponseEntity<String> interes(){
         List<Student> estudiantes = cuotaService.obtenerEstudiantes();
         for(Student s : estudiantes){

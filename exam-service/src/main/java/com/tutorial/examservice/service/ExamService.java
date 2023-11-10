@@ -200,17 +200,16 @@ public class ExamService {
 
 
     // aplicar descuento a la base de datos
-    public ResponseEntity<String> aplicarDescuentoPromedio(){
+    public void aplicarDescuentoPromedio(){
+        System.out.println("ESTOY EN EL SERVICIO DE EXAM");
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:8080/cuota/descuento", String.class);
-        return response;
+        restTemplate.put("http://localhost:8080/cuota/descuento", String.class);
     }
 
     // aplicar intereses por atrado de cuotas
-    public ResponseEntity<String> aplicarInteresAtrasoCuotas(){
+    public void aplicarInteresAtrasoCuotas(){
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:8080/cuota/interes", String.class);
-        return response;
+        restTemplate.put("http://localhost:8080/cuota/interes", String.class);
     }
 
 

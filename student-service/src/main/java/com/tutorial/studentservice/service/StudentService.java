@@ -1,13 +1,9 @@
 package com.tutorial.studentservice.service;
 
 import com.tutorial.studentservice.entity.Student;
-import com.tutorial.studentservice.model.Exam;
-import com.tutorial.studentservice.model.Cuota;
 import com.tutorial.studentservice.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -16,9 +12,6 @@ public class StudentService {
 
     @Autowired
     StudentRepository studentRepository;
-
-    @Autowired
-    RestTemplate restTemplate;
 
     // obtener lista de estudiantes
     public List<Student> obtenerEstudiantes() {
@@ -41,17 +34,6 @@ public class StudentService {
 
     // obtener al estudiante por su rut
 
-
-
-    public List<Cuota> getBooks(int studentId) {
-        List<Cuota> books = restTemplate.getForObject("http://book-service/book/bystudent/" + studentId, List.class);
-        return books;
-    }
-
-    public List<Exam> getPets(int studentId) {
-        List<Exam> pets = restTemplate.getForObject("http://pet-service/pet/bystudent/" + studentId, List.class);
-        return pets;
-    }
 
     /*
     public Cuota saveBook(int studentId, Cuota book) {

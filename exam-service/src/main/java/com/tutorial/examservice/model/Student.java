@@ -21,8 +21,7 @@ public class Student {
     private Integer anio_egreso;
 
     //-----------
-    private Integer pago; // indica si hay un pago (1) o no (0) según si tiene o no cuotas
-    private String tipo_pago;  // contado o cuota
     private Float matricula; // indica la matricula de 70000
+    private Float saldo_devuelto; // salgo que se devuelve para los que pagaron contado
 
 }

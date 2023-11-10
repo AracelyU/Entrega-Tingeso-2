@@ -14,31 +14,16 @@ import java.time.LocalDateTime;
 public class Student {
 
     private int id;
-
     private String rut;
-
     private String nombre_estudiante;
-
     private String apellido_estudiante;
-
     private LocalDate fecha_nacimiento;
-
     private String tipo_colegio;
-
     private String nombre_colegio;
-
     private Integer anio_egreso;
 
     //-----------
-
-    private Integer pago; // indica si hay un pago (1) o no (0) según si tiene o no cuotas
-
-    private String tipo_pago;  // contado o cuota
-
     private Float matricula; // indica la matricula de 70000
-
-    private LocalDateTime ultimo_pago;  // ingresa el último pago que se hizo de pago
-
     private Float saldo_devuelto; // salgo que se devuelve para los que pagaron contado
 
 
