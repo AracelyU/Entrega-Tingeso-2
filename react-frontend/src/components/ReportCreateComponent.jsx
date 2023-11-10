@@ -24,6 +24,7 @@ function ReportCreateComponent(){
         id_estudiante: "",
         rut: "",
         nombre: "",
+        apellido: "",
         nro_examenes:"",
         promedio: "",
         monto_total: "",
@@ -38,6 +39,7 @@ function ReportCreateComponent(){
     const initialStateReporte = {
             rut: "",
             nombre: "",
+            apellido: "",
             nro_examenes:"",
             promedio: "",
             monto_total: "",
@@ -82,6 +84,7 @@ function ReportCreateComponent(){
 
         input.rut = reporte.rut;
         input.nombre = reporte.nombre;
+        input.apellido = reporte.apellido;
         input.nro_examenes = reporte.nro_examenes;
         input.promedio = reporte.promedio;
         input.monto_total = reporte.monto_total;
@@ -96,6 +99,7 @@ function ReportCreateComponent(){
         console.log(input.id_estudiante);
         console.log(input.rut);
         console.log(input.nombre);
+        console.log(input.apellido)
         console.log(input.nro_examenes);
         console.log(input.promedio);
         console.log(input.monto_total);

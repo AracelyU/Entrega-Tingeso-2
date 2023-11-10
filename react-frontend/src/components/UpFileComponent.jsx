@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
 import UpFileService from '../service/UpFileService';
 import "../style/css/EstiloBotones.css"
+import axios from "axios";
+import Swal from "sweetalert2";
+
+async function updateDescuento() {
+    const response = await axios.put(`http://localhost:8080/examen/descuentoPromedio`, {
+    });
+
+    return response.data;
+}
+
 
 class UpFileComponent extends Component {
     constructor(props) {
@@ -8,8 +18,10 @@ class UpFileComponent extends Component {
         this.state = {
             file: null,
             message: '',
+
         };
     }
+
 
     handleFileChange = (event) => {
         this.setState({
@@ -37,6 +49,35 @@ class UpFileComponent extends Component {
     };
 
     render() {
+
+        const aplicarDescuentoPromedio= (event) => {
+            Swal.fire({
+                title: "¿Desea aplicar el descuento?",
+                text: "No podra cambiarse en caso de equivocación",
+                icon: "question",
+                showDenyButton: true,
+                confirmButtonText: "Confirmar",
+                confirmButtonColor: "rgb(68, 194, 68)",
+                denyButtonText: "Cancelar",
+                denyButtonColor: "rgb(190, 54, 54)",
+
+            }).then((result) => {
+
+                updateDescuento().then(r => "")
+                Swal.fire({
+                    title: "Enviado",
+                    timer: 2000,
+                    icon: "success",
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading()
+                    },
+                })
+
+            });
+        }
+
+
         return (
             <div>
                 <br></br>
@@ -45,7 +86,7 @@ class UpFileComponent extends Component {
                 <hr></hr>
                 <div className='container_subida'>
                     <div className="form-group">
-                        <h2 className='entrada titulo'>Selecciona un archivo .csv</h2>
+                        <h2 className='entrada titulo'>Selecciona un archivo .csv con formato ';'</h2>
                         <br></br>
                         <br></br>
                         <input
@@ -60,10 +101,11 @@ class UpFileComponent extends Component {
                         Subir Excel
                     </button>
                     {this.state.message && <p className="text-success">{this.state.message}</p>}
-
                     <br></br>
                     <h2>Solo se puede aplicar descuentos mientras no se día de pagos</h2>
-                    <button className="btn ml-2 main-button2 centrarClick"> Aplicar Descuento</button>
+                    <button className="btn ml-2 main-button2 centrarClick" onClick={() => aplicarDescuentoPromedio()}>
+                        Aplicar Descuento
+                    </button>
                 </div>
             </div>
         );

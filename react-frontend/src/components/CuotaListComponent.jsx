@@ -8,6 +8,17 @@ import "../style/css/EstiloSelect.css"
 import "../style/css/EstiloBotones.css"
 import "../style/css/EstiloTitulos.css"
 
+// aplicar el interes a las cuotas atrasadas
+async function updateInteres() {
+    const today = new Date();
+    if (today.getDate() === 1) {
+        const response = await axios.put(`http://localhost:8080/examen/interesAtraso`, {
+        });
+        return response.data;
+    }
+    return null;
+}
+
 class CuotaListComponent extends Component {
 
     constructor(props) {
@@ -46,9 +57,10 @@ class CuotaListComponent extends Component {
 
     render() {
 
+        updateInteres().then(r => "");
+
         const { cuotas } = this.state;
         const { students } = this.state;
-
 
         if(students.length === 0){
             return(
