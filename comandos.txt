@@ -1,0 +1,87 @@
+Comandos para configurar kubernetes
+Tener abiertos 4 cmd
+
+---------------------------------------------------------------
+Preparaciones
+
+cd C:\Users\arace\OneDrive\Documentos\REPOSITORIOS\Entrega-Tingeso-2
+
+cd config-service
+mvn clean install -DskipTests=True
+docker build -t aracelyu/config-service .
+docker push aracelyu/config-service
+cd ../
+
+cd eureka-service
+mvn clean install -DskipTests=True
+docker build -t aracelyu/eureka-service .
+docker push aracelyu/eureka-service
+cd ../
+
+
+cd gateway-service
+mvn clean install -DskipTests=True
+docker build -t aracelyu/gateway-service .
+docker push aracelyu/gateway-service
+cd ../
+
+cd student-service
+mvn clean install -DskipTests=True
+docker build -t aracelyu/student-service .
+docker push aracelyu/student-service
+cd ../
+
+cd cuota-service
+mvn clean install -DskipTests=True
+docker build -t aracelyu/cuota-service .
+docker push aracelyu/cuota-service
+cd ../
+
+cd exam-service
+mvn clean install -DskipTests=True
+docker build -t aracelyu/exam-service .
+docker push aracelyu/exam-service
+cd ../
+
+cd react-frontend
+docker build -t aracelyu/react-frontend .
+docker push aracelyu/react-frontend
+cd ../
+
+-----------------------------------------------------------
+
+1. configurar base de datos
+minikube status
+minikube start
+
+cd minikube
+
+kubectl apply -f mysql-secrets.yml
+kubectl apply -f mysql-configmap.yml
+kubectl apply -f mysql-dp-sv-pvc.yml
+
+kubectl apply -f react-frontend-deployment-service.yml
+
+kubectl apply -f config-deployment-service.yml
+kubectl apply -f eureka-deployment-service.yml
+
+kubectl apply -f student-deployment-service.yml
+kubectl apply -f cuota-deployment-service.yml
+kubectl apply -f exam-deployment-service.yml
+kubectl apply -f gateway-deployment-service.yml
+
+
+
+kubectl get all
+
+(esto lo puedes hacer el otra terminal)
+kubectl exec -it <Name pods mysql> bash -- psql -h root -U root 
+
+
+
+
+
+
+kubectl apply -f postgres-secrets.yml
+kubectl apply -f postgres-configmap.yml
+kubectl apply -f postgres-dp-sv-pvc.yml
