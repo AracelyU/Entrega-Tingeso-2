@@ -60,28 +60,42 @@ kubectl apply -f mysql-secrets.yml
 kubectl apply -f mysql-configmap.yml
 kubectl apply -f mysql-dp-sv-pvc.yml
 
-kubectl apply -f react-frontend-deployment-service.yml
+{
+kubectl exec -it <Nombre pod MYSQL> -- mysql -uroot -p2190
+kubectl exec -it <Nombre pod MYSQL> -- mysql -uuroot - puroot
 
+CREATE USER 'uroot'@'localhost' IDENTIFIED BY 'uroot';
+grant all privileges on *.* to 'uroot'@'localhost';
+
+CREATE DATABASE topeducationcuotas
+CREATE DATABASE topeducationestudiantes
+CREATE DATABASE topeducationexamenes
+
+SHOW DATABASES;
+}
+
+kubectl apply -f react-frontend-deployment-service.yml
 kubectl apply -f config-deployment-service.yml
+
+esperar a que este config corriendo
+
 kubectl apply -f eureka-deployment-service.yml
+
+esperar a que eureka este corriendo
 
 kubectl apply -f student-deployment-service.yml
 kubectl apply -f cuota-deployment-service.yml
 kubectl apply -f exam-deployment-service.yml
 kubectl apply -f gateway-deployment-service.yml
 
+minikube service react-frontend-service
 
+{
+minikube tunnel
+}
+
+
+----------------------------------------------------------------
 
 kubectl get all
-
-(esto lo puedes hacer el otra terminal)
-kubectl exec -it <Name pods mysql> bash -- psql -h root -U root 
-
-
-
-
-
-
-kubectl apply -f postgres-secrets.yml
-kubectl apply -f postgres-configmap.yml
-kubectl apply -f postgres-dp-sv-pvc.yml
+kubectl get pods

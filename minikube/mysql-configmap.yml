@@ -11,4 +11,4 @@ data:
   #base de dato Estudiantes
   MYSQL_DB_ESTUDIANTES: topeducationestudiantes
   #base de dato Examenes
-  MYSQL_BD_EXAMEN: topeducationexamenes
+  MYSQL_DB_EXAMEN: topeducationexamenes
