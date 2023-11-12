@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from "react";
+import React, {Component} from "react";
 import Form from 'react-bootstrap/Form';
 import "../style/css/EstiloFormulario.css"
 import "../style/css/EstiloHome.css"

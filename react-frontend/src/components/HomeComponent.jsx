@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { } from "react";
 import "../style/css/EstiloHome.css"
 import "../style/css/EstiloBotones.css"
 import "../style/css/EstiloTitulos.css"

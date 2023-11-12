@@ -1,22 +1,11 @@
 import React, {useEffect, useState} from "react";
-import { useNavigate } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Swal from 'sweetalert2';
 import "../style/css/EstiloFormulario.css"
 import "../style/css/EstiloHome.css"
-import CuotaService from "../service/CuotaService";
-import studentService from "../service/StudentService";
-import cuotaService from "../service/CuotaService";
 import axios from "axios";
-import reportService from "../service/ReportService";
 
 function ReportCreateComponent(){
-
-    const navigate = useNavigate();
-    const navigateHome = () => {
-        navigate("/");
-    };
 
     const [students, setStudents] = useState([]);
 

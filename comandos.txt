@@ -67,9 +67,9 @@ kubectl exec -it <Nombre pod MYSQL> -- mysql -uuroot - puroot
 CREATE USER 'uroot'@'localhost' IDENTIFIED BY 'uroot';
 grant all privileges on *.* to 'uroot'@'localhost';
 
-CREATE DATABASE topeducationcuotas
-CREATE DATABASE topeducationestudiantes
-CREATE DATABASE topeducationexamenes
+CREATE DATABASE topeducationcuotas;
+CREATE DATABASE topeducationestudiantes;
+CREATE DATABASE topeducationexamenes;
 
 SHOW DATABASES;
 }
@@ -78,17 +78,23 @@ kubectl apply -f react-frontend-deployment-service.yml
 kubectl apply -f config-deployment-service.yml
 
 esperar a que este config corriendo
+kubectl logs <Name pods config> -f
 
 kubectl apply -f eureka-deployment-service.yml
 
 esperar a que eureka este corriendo
+kubectl logs <Name pods eureka> -f
 
 kubectl apply -f student-deployment-service.yml
 kubectl apply -f cuota-deployment-service.yml
 kubectl apply -f exam-deployment-service.yml
 kubectl apply -f gateway-deployment-service.yml
 
-minikube service react-frontend-service
+
+kubectl port-forward react-frontend-deployment-69c4fd66cd-zcnps 3000:3000
+kubectl port-forward gateway-deployment-b4659c5b4-zfn5p 8080:8080
+
+minikube service react-frontend
 
 {
 minikube tunnel
@@ -96,6 +102,11 @@ minikube tunnel
 
 
 ----------------------------------------------------------------
+
+
+kubectl delete deployments react-frontend-deployment
+kubectl delete services react-frontend-service
+
 
 kubectl get all
 kubectl get pods

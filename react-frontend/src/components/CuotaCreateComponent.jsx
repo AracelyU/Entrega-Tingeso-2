@@ -5,10 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2';
 import "../style/css/EstiloFormulario.css"
 import "../style/css/EstiloHome.css"
-import CuotaService from "../service/CuotaService";
-import studentService from "../service/StudentService";
 import cuotaService from "../service/CuotaService";
-import axios from "axios";
 
 function CuotaCreateComponent(){
 
@@ -18,7 +15,6 @@ function CuotaCreateComponent(){
     };
 
     const [students, setStudents] = useState([]);
-    const [estudiante, setEstudiante] = useState(null);
 
     const initialState = {
         num_cuotas: "",
@@ -32,7 +28,7 @@ function CuotaCreateComponent(){
     useEffect(()=>{
         fetch("http://localhost:8080/student")
             .then(response=>response.json())
-            .then(data=>setStudents(data.map(({id, nombre_estudiante, apellido_estudiante})=>({id, nombre_estudiante, apellido_estudiante}))))
+            .then(data=>setStudents(data.map(({id, nombre_estudiante, apellido_estudiante, tipo_colegio})=>({id, nombre_estudiante, apellido_estudiante, tipo_colegio}))))
     },[])
 
 
@@ -61,13 +57,17 @@ function CuotaCreateComponent(){
         setInput({...input, id_estudiante: event.target.value});
     };
 
+
     // hacer función que verifique si un estudiante ya tiene un pago asociado
+    /*
     const checkPagoExistence = (id) => {
         if(cuotaService.verificarCuotas(id) == null){ // si no hay contenido no hay pago pendiente o pago
             return false;
         }
         return true;
     };
+
+     */
 
 
 
@@ -102,11 +102,42 @@ function CuotaCreateComponent(){
                 });
                 return;
             }
-
              */
 
+            const id_estudiante = input.id_estudiante;
+            const student = students.find((s) => s.id === id_estudiante);
+            const tipo_colegio = student.tipo_colegio;
 
             // verifica la cantidad de cuotas según el tipo_colegio del estudiante
+            if (tipo_colegio === "municipal" && input.num_cuotas > 10){
+                Swal.fire({
+                    title: "Error",
+                    text: "Para tipo de colegio municipal solo se permiten hasta 10 cuotas",
+                    icon: "error",
+                });
+                return;
+
+            }
+
+            if (tipo_colegio === "subvencionado" && input.num_cuotas > 7){
+                Swal.fire({
+                    title: "Error",
+                    text: "Para tipo de colegio subvencionado solo se permiten hasta 7 cuotas",
+                    icon: "error",
+                });
+                return;
+
+            }
+
+            if (tipo_colegio === "privado" && input.num_cuotas > 4){
+                Swal.fire({
+                    title: "Error",
+                    text: "Para tipo de colegio privado solo se permiten hasta 4 cuotas",
+                    icon: "error",
+                });
+                return;
+
+            }
 
 
             // Verifica si el día actual está entre el 5 y el 10
@@ -143,7 +174,7 @@ function CuotaCreateComponent(){
                 };
 
                 console.log(newGenerarCuota);
-                CuotaService.createCuota(newGenerarCuota);
+                cuotaService.createCuota(newGenerarCuota);
 
                 Swal.fire({
                     title: "Enviado",
@@ -160,7 +191,7 @@ function CuotaCreateComponent(){
         });
     };
 
-    return(
+    return (
         <div className="general">
             <br></br>
             <a className="botonVolver" href="/"> Volver Al Menú Principal</a>
@@ -193,12 +224,14 @@ function CuotaCreateComponent(){
                             ))}
                         </select>
                     </Form.Group>
-
-
                     <Button className="botonRegistro" onClick={crearCuotas}>Registrar Pago</Button>
 
                 </Form>
+
             </div>
+            <h2>Un estudiante con tipo de colegio municipal solo puede hacer hasta 10 cuotas, uno con subvencionado solo puede hacer hasta 7 cuotas, un privado hasta 4.</h2>
+            <h2>No se puede crear un pago entre el 5 y el 10 de cada mes.</h2>
+            <hr></hr>
         </div>
     )
 
