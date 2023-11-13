@@ -14,9 +14,10 @@ spring:
   datasource:
     plataform: mysql
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_DB_HOST}:3306/${MYSQL_DB_CUOTAS}?useSSL=false
+    url: jdbc:mysql://${MYSQL_DB_HOST}:3306/${MYSQL_DB_CUOTAS}?allowPublicKeyRetrieval=true&useSSL=false
     username: ${MYSQL_USER}
     password: ${MYSQL_PASSWORD}
+
   jpa:
     hibernate:
       ddl-auto: create
