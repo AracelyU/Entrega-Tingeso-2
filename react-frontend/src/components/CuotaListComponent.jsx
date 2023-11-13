@@ -12,7 +12,7 @@ import "../style/css/EstiloTitulos.css"
 async function updateInteres() {
     const today = new Date();
     if (today.getDate() === 1) {
-        const response = await axios.put(`http://localhost:8080/examen/interesAtraso`, {
+        const response = await axios.put(`http://gateway-service/examen/interesAtraso`, {
         });
         return response.data;
     }
@@ -38,7 +38,7 @@ class CuotaListComponent extends Component {
             event.preventDefault();
             const { id_estudiante } = this.state;
             // Obtenemos las cuotas del estudiante
-            axios.get(`http://localhost:8080/cuota/bystudent/${id_estudiante}`)
+            axios.get(`http://gateway-service/cuota/bystudent/${id_estudiante}`)
                 .then((response) => {
                     this.setState({ cuotas: response.data });
                 });
@@ -48,7 +48,7 @@ class CuotaListComponent extends Component {
     }
 
     componentDidMount() {
-        fetch("http://localhost:8080/student")
+        fetch("http://gateway-service/student")
             .then((response) => response.json())
             .then((data) => this.setState({ students: data }));
 

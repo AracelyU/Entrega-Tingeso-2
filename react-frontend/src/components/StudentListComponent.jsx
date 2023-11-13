@@ -24,7 +24,7 @@ class StudentListComponent extends Component{
 
 
     componentDidMount(){
-        fetch("http://localhost:8080/student")
+        fetch("http://gateway-service/student")
             .then((response) => response.json())
             .then((data) => this.setState({ students: data }));
     }

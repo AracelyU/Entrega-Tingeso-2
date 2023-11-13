@@ -26,7 +26,7 @@ function CuotaCreateComponent(){
 
 
     useEffect(()=>{
-        fetch("http://localhost:8080/student")
+        fetch("http://gateway-service/student")
             .then(response=>response.json())
             .then(data=>setStudents(data.map(({id, nombre_estudiante, apellido_estudiante, tipo_colegio})=>({id, nombre_estudiante, apellido_estudiante, tipo_colegio}))))
     },[])

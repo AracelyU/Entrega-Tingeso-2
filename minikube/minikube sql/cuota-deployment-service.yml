@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: exam-deployment
+  name: cuota-deployment
   labels:
-    app: exam-deployment
+    app: cuota-deployment
 spec:
   selector:
     matchLabels:
-      app: exam-deployment
+      app: cuota-deployment
   replicas: 1
   template:
     metadata:
       labels:
-        app: exam-deployment
+        app: cuota-deployment
     spec:
       containers:
-        - name: topeducation-examen-mysql
-          image: aracelyu/exam-service:latest
+        - name: topeducation-cuota-mysql
+          image: aracelyu/cuota-service:latest
           ports:
             - containerPort: 8081
           env:
@@ -26,38 +26,38 @@ spec:
               value: http://eureka-service:8761
             - name: eureka.instance.preferIpAddress
               value: "true"
-            - name: POSTGRES_DB_HOST
+            - name: MYSQL_DB_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: postgres-config-map
-                  key: POSTGRES_DB_HOST
-            - name: POSTGRES_DB_NOTA
+                  name: mysql-config-map
+                  key: MYSQL_DB_HOST
+            - name: MYSQL_DB_CUOTAS
               valueFrom:
                 configMapKeyRef:
-                  name: postgres-config-map
-                  key: POSTGRES_DB_NOTA
-            - name: POSTGRES_USER
+                  name: mysql-config-map
+                  key: MYSQL_DB_CUOTAS
+            - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
-                  name: postgres-credentials
-                  key: POSTGRES_USER
-            - name: POSTGRES_PASSWORD
+                  name: mysql-credentials
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-credentials
-                  key: POSTGRES_PASSWORD
+                  name: mysql-credentials
+                  key: MYSQL_PASSWORD
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: exam-service
+  name: cuota-service
   labels:
-    app: exam-service
+    app: cuota-service
 spec:
   selector:
-    app: exam-deployment
+    app: cuota-deployment
   ports:
     - protocol: TCP
-      port: 8084
-      targetPort: 8084
+      port: 8083
+      targetPort: 8083
   type: LoadBalancer

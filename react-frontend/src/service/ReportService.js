@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL_CUOTA = "http://localhost:8080/examen/";
+const API_URL_CUOTA = "http://gateway-service/examen/";
 
 class ReportService{
 

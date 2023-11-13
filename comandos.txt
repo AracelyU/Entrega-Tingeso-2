@@ -105,7 +105,20 @@ minikube tunnel
 
 
 kubectl delete deployments react-frontend-deployment
-kubectl delete services react-frontend-service
+kubectl delete services react-frontend
+
+kubectl delete deployments exam-deployment
+kubectl delete services exam-service
+
+kubectl delete deployments cuota-deployment
+kubectl delete services cuota-service
+
+kubectl delete deployments student-deployment
+kubectl delete services student-service
+
+kubectl delete deployments gateway-deployment
+kubectl delete services gateway-service
+
 
 
 kubectl get all

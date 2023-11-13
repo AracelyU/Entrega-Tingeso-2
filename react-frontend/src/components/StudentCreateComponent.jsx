@@ -49,13 +49,6 @@ function StudentCreateComponent(props) {
         setInput({...input, nombre_colegio: event.target.value});
     };
 
-    // verificar la existencia de un Rut, para ver si es repetido o nos
-    const checkRutExistence = (rut) => {
-        if(studentService.verificarRut(rut) == null){ // si no hay contenido el rut no es repetido
-            return false;
-        }
-        return true;
-    };
 
     const ingresarEstudiante = (event) => {
 

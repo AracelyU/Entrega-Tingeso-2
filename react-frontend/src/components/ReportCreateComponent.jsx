@@ -46,7 +46,7 @@ function ReportCreateComponent(){
 
     // obtenermos los estudiantes
     useEffect(()=>{
-        fetch("http://localhost:8080/student")
+        fetch("http://gateway-service/student")
             .then(response=>response.json())
             .then(data=>setStudents(data.map(({id, nombre_estudiante, apellido_estudiante})=>({id, nombre_estudiante, apellido_estudiante}))))
     },[])
@@ -62,7 +62,7 @@ function ReportCreateComponent(){
         // Obtener el id del estudiante seleccionado
         const student_id = input.id_estudiante;
 
-        axios.get(`http://localhost:8080/examen/generarReporte/${student_id}`)
+        axios.get(`http://gateway-service/examen/generarReporte/${student_id}`)
             .then((response) => {
                 // Asigna el objeto reporte al estado reporte
                 setReporte(response.data);

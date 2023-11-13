@@ -5,6 +5,9 @@ eureka:
     service-url:
       defaultZone: http://eureka-service:8761/eureka/
 spring:
+  devtools:
+    restart:
+      aditional-paths: src/main/java
   application:
     name: exam-service
   cloud:
@@ -12,11 +15,12 @@ spring:
       enabled: true
       uri: http://localhost:8081
   datasource:
-    plataform: mysql
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_DB_HOST}:3306/${MYSQL_DB_EXAMEN}?allowPublicKeyRetrieval=true&useSSL=false
-    username: ${MYSQL_USER}
-    password: ${MYSQL_PASSWORD}
-  jpa:
-    hibernate:
-      ddl-auto: create
+    driver-class-name: org.postgresql.Driver
+    #url: jdbc:postgresql://localhost:5432/top_education_nota
+    url: jdbc:postgresql://${POSTGRES_DB_HOST}:5432/${POSTGRES_DB_NOTA}?useSSL=false
+    username: postgres
+    password: 1234
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
