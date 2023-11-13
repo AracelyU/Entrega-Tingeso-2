@@ -11,7 +11,6 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class CuotaService {
 
     // obtener estudiante por su id
     public Student obtenerEstudiantePorId(int id) {
-        ResponseEntity<Student> response = restTemplate.getForEntity("http://gateway-service/student/" + id, Student.class);
+        ResponseEntity<Student> response = restTemplate.getForEntity("http://localhost:8080/student/" + id, Student.class);
         return response.getBody();
     }
 
@@ -227,7 +226,7 @@ public class CuotaService {
     // obtener estudiantes
     public List<Student> obtenerEstudiantes() {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Student[]> response = restTemplate.getForEntity("http://gateway-service/student", Student[].class);
+        ResponseEntity<Student[]> response = restTemplate.getForEntity("http://localhost:8080/student", Student[].class);
         if (response.getStatusCode().is2xxSuccessful()) {
             return Arrays.asList(response.getBody());
         } else {
@@ -238,7 +237,7 @@ public class CuotaService {
     // obtener promedio
     public Float obtenerPromedio(String rut){
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Float> response = restTemplate.getForEntity("http://gateway-service/examen/promedio/" + rut, Float.class);
+        ResponseEntity<Float> response = restTemplate.getForEntity("http://localhost:8080/examen/promedio/" + rut, Float.class);
         if (response.getStatusCode().is2xxSuccessful()) {
             return response.getBody();
         } else {

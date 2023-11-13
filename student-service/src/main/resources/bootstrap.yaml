@@ -10,6 +10,11 @@ spring:
       aditional-paths: src/main/java
   application:
     name: student-service
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: create
   cloud:
     config:
       enabled: true

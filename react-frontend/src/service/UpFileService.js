@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const API_URL_FILE = "http://gateway-service/examen/";
+const API_URL_FILE = "http://localhost:8080/examen/";
 class UpFileService{
 
     CargarArchivo(formData){

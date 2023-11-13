@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL_CUOTA = "http://gateway-service/cuota/";
+const API_URL_CUOTA = "http://localhost:8080/cuota/";
 
 class CuotaService{
 

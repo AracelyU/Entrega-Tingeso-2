@@ -7,7 +7,7 @@ import "../style/css/EstiloSelect.css"
 import axios from "axios";
 
 async function updateCuota(idCuota) {
-    const response = await axios.put(`http://gateway-service/cuota/pagar/${idCuota}`, {
+    const response = await axios.put(`http://localhost:8080/cuota/pagar/${idCuota}`, {
     });
 
     return response.data;
@@ -32,7 +32,7 @@ class CuotaPayComponent extends Component {
             event.preventDefault();
             const { id_estudiante } = this.state;
             // Obtenemos las cuotas del estudiante
-            axios.get(`http://gateway-service/cuota/bystudent/pendiente/${id_estudiante}`)
+            axios.get(`http://localhost:8080/cuota/bystudent/pendiente/${id_estudiante}`)
                 .then((response) => {
                     this.setState({ cuotas: response.data });
                 });
@@ -43,7 +43,7 @@ class CuotaPayComponent extends Component {
 
 
     componentDidMount() {
-        fetch("http://gateway-service/student")
+        fetch("http://localhost:8080/student")
             .then((response) => response.json())
             .then((data) => this.setState({ students: data }));
     }

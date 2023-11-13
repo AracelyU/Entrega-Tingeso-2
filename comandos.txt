@@ -56,9 +56,15 @@ minikube start
 
 cd minikube
 
+para mysql
 kubectl apply -f mysql-secrets.yml
 kubectl apply -f mysql-configmap.yml
 kubectl apply -f mysql-dp-sv-pvc.yml
+
+para postgres
+kubectl apply -f postgres-secrets.yml
+kubectl apply -f postgres-configmap.yml
+kubectl apply -f postgres-dp-sv-pvc.yml
 
 {
 kubectl exec -it <Nombre pod MYSQL> -- mysql -uroot -p2190
@@ -73,6 +79,11 @@ CREATE DATABASE topeducationexamenes;
 
 SHOW DATABASES;
 }
+
+{
+
+}
+
 
 kubectl apply -f react-frontend-deployment-service.yml
 kubectl apply -f config-deployment-service.yml

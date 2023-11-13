@@ -5,7 +5,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 async function updateDescuento() {
-    const response = await axios.put(`http://gateway-service/examen/descuentoPromedio`, {
+    const response = await axios.put(`http://localhost:8080/examen/descuentoPromedio`, {
     });
 
     return response.data;
