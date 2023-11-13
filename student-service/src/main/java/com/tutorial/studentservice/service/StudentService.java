@@ -32,23 +32,5 @@ public class StudentService {
         return studentRepository.findById(id);
     }
 
-    // obtener al estudiante por su rut
 
-
-    /*
-    public Cuota saveBook(int studentId, Cuota book) {
-        book.setStudentId(studentId);
-        HttpEntity<Cuota> request = new HttpEntity<Cuota>(book);
-        Cuota bookNew = restTemplate.postForObject("http://book-service/book", request, Cuota.class);
-        return bookNew;
-    }
-
-    public Exam savePet(int studentId, Exam pet) {
-        pet.setStudentId(studentId);
-        HttpEntity<Exam> request = new HttpEntity<Exam>(pet);
-        Exam petNew = restTemplate.postForObject("http://pet-service/pet", request, Exam.class);
-        return petNew;
-    }
-
-     */
 }
