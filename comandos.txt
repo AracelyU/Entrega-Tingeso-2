@@ -81,7 +81,11 @@ SHOW DATABASES;
 }
 
 {
+kubectl exec -it <name pod postgres> bash -- psql -h postgres -U postgres
 
+CREATE DATABASE top_education_cuota;
+CREATE DATABASE top_education_estudiante;
+CREATE DATABASE top_education_nota;
 }
 
 

@@ -92,52 +92,6 @@ function CuotaCreateComponent(){
 
         }).then((result) => {
 
-            /* VERIFICAR ESTA FUNCIÓN
-            // Verifica si hay pago pendiente o si no hay pago existe antes de crear el pago.
-            if (checkPagoExistence(input.id_estudiante)) {
-                Swal.fire({
-                    title: "Error",
-                    text: "El estudiante no tiene un pago o aún no lo ha pagado completamente",
-                    icon: "error",
-                });
-                return;
-            }
-             */
-
-            const id_estudiante = input.id_estudiante;
-            const student = students.find((s) => s.id === id_estudiante);
-            const tipo_colegio = student.tipo_colegio;
-
-            // verifica la cantidad de cuotas según el tipo_colegio del estudiante
-            if (tipo_colegio === "municipal" && input.num_cuotas > 10){
-                Swal.fire({
-                    title: "Error",
-                    text: "Para tipo de colegio municipal solo se permiten hasta 10 cuotas",
-                    icon: "error",
-                });
-                return;
-
-            }
-
-            if (tipo_colegio === "subvencionado" && input.num_cuotas > 7){
-                Swal.fire({
-                    title: "Error",
-                    text: "Para tipo de colegio subvencionado solo se permiten hasta 7 cuotas",
-                    icon: "error",
-                });
-                return;
-
-            }
-
-            if (tipo_colegio === "privado" && input.num_cuotas > 4){
-                Swal.fire({
-                    title: "Error",
-                    text: "Para tipo de colegio privado solo se permiten hasta 4 cuotas",
-                    icon: "error",
-                });
-                return;
-
-            }
 
 
             // Verifica si el día actual está entre el 5 y el 10
